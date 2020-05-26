@@ -1,0 +1,14 @@
+*.nc
+*.zip
+*.gz
+*.tar
+*.tif
+*.nc4
+*.leg
+*.tfw
+*.vscode
+*.swp
+*checkpoint*
+*__pycache__*
+*wandb*
+*.ckpt
