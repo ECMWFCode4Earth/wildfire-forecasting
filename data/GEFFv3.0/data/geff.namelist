@@ -1,0 +1,68 @@
+! GEFF
+!
+! CONTROL
+! * output_file      ex. 'geff.grib'
+! * output_restart   ex. 'restart.grib'
+! * output_constant  output constant fields, T or F
+! * inidate          ex. 20170404
+! * initime          ex. 1200
+! * dt               (h) ex. 24
+! * restart_file     ex. 'restart.grib'
+! * restart_day      number of steps before writing a restart file, ex. 1
+! * now              ex. '20170404'
+!
+! CLIMATE
+! * tempfile      2m temperature 12 local time (Kelvin)
+! * maxtempfile   2m max temperature in 24h before (Kelvin)
+! * mintempfile   2m min temperature in 24h before (Kelvin)
+! * rhfile        2m relative humidity at 12 local time (%)
+! * maxrhfile     2m max relative humidity in the 24h before (%)
+! * minrhfile     2m min relative humidity in the 24h before (%)
+! * rainfile      accumulated precipitation in the 24h before (mm/day)
+! * ccfile        Cloud cover file (fraction)
+! * wspeedfile    wind speed intensity (m/s)
+! * snowfile      snow cover mask (0/1)
+! * dpfile        duration of precipitation in the previous 24h (h)
+! * vsfile        vegetation stage file (1=cured, 2=pre-green, 3=green, 4=transition)
+!
+! CONSTDATA
+! * lsmfile       land sea mask file
+! * crfile        climatic regions (1=arid, 2=semi-arid, 3=humid, 4=wet, 5=arctic)
+! * fmfile        fuel model file code.
+! * slopefile     slope is divided in 5 classes (0, 1, 2, 3, 4)
+! * cvfile        vegetation cover (fraction [0, 1])
+! * rainclimfile  climatological precipitation accumulated over an year mm/year
+!
+&CONTROL
+output_file='geff.grib',
+output_restart='',
+output_constant=T,
+inidate=20170404,
+initime=1200,
+dt=24,
+restart_file='',
+restart_day=1,
+now='20170404'
+/
+&CLIMATE
+tempfile='tt_EU.nc.grib',
+maxtempfile='ttmax_EU.nc.grib',
+mintempfile='ttmin_EU.nc.grib',
+rhfile='rh_EU.nc.grib',
+maxrhfile='rhmax_EU.nc.grib',
+minrhfile='rhmin_EU.nc.grib',
+rainfile='pr_EU.nc.grib',
+ccfile='cc_EU.nc.grib',
+wspeedfile='ws_EU.nc.grib',
+snowfile='sc_EU.nc.grib',
+dpfile='prdur_EU.nc.grib',
+vsfile='vs_EU.nc.grib'
+/
+&CONSTDATA
+lsmfile='lm_EU.nc.grib',
+crfile='cr_EU.nc.grib',
+fmfile='fm_EU.nc.grib',
+slopefile='slope_EU.nc.grib',
+cvfile='vc_EU.nc.grib',
+rainclimfile='prclim_EU.nc.grib'
+/

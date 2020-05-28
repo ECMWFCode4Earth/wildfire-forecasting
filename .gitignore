@@ -9,7 +9,7 @@ checkpoint
 
 # TF / PyTorch / W&B
 wandb
-*.ckpt
+.ckpt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
