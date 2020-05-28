@@ -1,0 +1,36 @@
+BANDS:      1
+ROWS:   16353
+COLS:   40320
+INTERLEAVING:    NA
+DATATYPE: U8   
+BYTE_ORDER: NA      
+UL_X_COORDINATE:           -180.000000
+UL_Y_COORDINATE:             89.991071
+LR_X_COORDINATE:            179.991070
+LR_Y_COORDINATE:            -56.008928
+PIXEL_WIDTH:               0.0089285714
+PIXEL_HEIGHT:              0.0089285714
+MAP_UNITS:    DD                   
+PROJECTION_NAME: Geographic (Lat/Lon)                    
+PROJECTION_ZONE:     0
+PROJECTION_PARAMETERS:
+	             0.000000
+	             0.000000
+	             0.000000
+	             0.000000
+	             0.000000
+	             0.000000
+	             0.000000
+	             0.000000
+	             0.000000
+	             0.000000
+	             0.000000
+	             0.000000
+	             0.000000
+	             0.000000
+	             0.000000
+SPHEROID_NAME: WGS 84                                  
+SEMI_MAJOR_AXIS:        6378137.000000
+SEMI_MINOR_AXIS:        6356752.314245
+E_SQUARED:                    0.006694
+RADIUS:                 6371007.180918
