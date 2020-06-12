@@ -12,7 +12,7 @@ The project intends to reproduce the Fire Forecasting capabilities of GEFF using
 - **`src/`**
   - **`models/`** - deep learning models in development
 - **`data/`** - data access scripts and exploratory data analysis.
-    - `forcings/` - sample meteorological forcings data (for eg. windspeed, temperature, relative humidity, etc).
+    - `forcings/` - sample meteorological forcings data (for eg. wind speed, temperature, precipitation, relative humidity, etc).
     - `forecast/` - sample data produced by forecast models (for eg. fwi-forecast produced by EFFIS).
     - `reanalysis/` - sample assimilated historical observation data (for eg fwi-reanalysis produced by ERA-5).
     - `GEFFv3.0` - sample input data, cloned from the Global ECMWF Fire Forecasting (GEFF) [repository](https://git.ecmwf.int/projects/CEMSF/repos/geff/browse/data).
