@@ -1,39 +1,25 @@
-# IPython
-profile_default/
-ipython_config.py
-
-# Jupyter Notebook
-checkpoint
-.ipynb_checkpoints
-*/.ipynb_checkpoints/*
-
-# TF / PyTorch / W&B
-wandb
-.ckpt
-
-# Byte-compiled / optimized / DLL files
-__pycache__/
-
-# MacOS
+*.nc
+*.zip
+*.gz
+*.tar
+*.tif
+*.nc4
+*.leg
+*.tfw
+*.vscode
+*.swp
+*checkpoint*
+*__pycache__*
+*wandb*
+*.ckpt
+*.7z
+*lightning_logs*
+*tb_logs*
+.docs.sh
+Dockerfile
+logs
 .DS_Store
-
-# Environments
-env/
-venv/
-.env
-.venv
-
-# Vim / VSCode / PyCharm
-.swp
-.vscode
-.idea/
-
-# Large files
-.nc
-.zip
-.gz
-.tar
-.tif
-.nc4
-.leg
-.tfw
+**/dataloader/*.pkl
+**/dataloader/*.npy
+.DS_St
+docs/build
