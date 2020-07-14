@@ -60,7 +60,7 @@ The project intends to reproduce the Fire Forecasting capabilities of GEFF using
     `  -h, --help show this help message and exit`
 <pre>    -init-features 16                       Architecture complexity
     -in-days 4                              Number of input days
-    -out-days 1                         Number of output channels
+    -out-days 1                             Number of output channels
     -epochs 100                             Number of training epochs
     -learning-rate 0.001                    Maximum learning rate
     -loss mse                               Loss function: mae, mse
