@@ -18,8 +18,8 @@ The project intends to reproduce the Fire Forecasting capabilities of GEFF using
 
 ## Running Inference
 
-* **Quick example**:<br>
-  The [inference.ipynb](examples/inference.ipynb) demonstrates the end-to-end procedure of loading data, creating model from saved checkpoint, and getting the predictions.
+* **Examples**:<br>
+  The [inference_2_1.ipynb](examples/inference_2_1.ipynb) and [inference_4_10.ipynb](examples/inference_4_10.ipynb) notebooks demonstrate the end-to-end procedure of loading data, creating model from saved checkpoint, and getting the predictions for 2 day input, 1 day forecast; and 4 day input, 10 day forecast experiments respectively.
 * **Testing data**:<br>
   Ensure the access to fwi-forcings and fwi-reanalysis data.
 * **Obtain pre-trained model**:<br>
@@ -96,4 +96,6 @@ The project intends to reproduce the Fire Forecasting capabilities of GEFF using
 
 ### Acknowledgements
 
-This project tackles [Challenge #26](https://github.com/esowc/challenges_2020/issues/10) from Stream 2: Machine Learning and Artificial Intelligence, @[ECMWF Summer of Weather Code 2020](https://esowc.ecmwf.int/).
+This project tackles [Challenge #26](https://github.com/esowc/challenges_2020/issues/10) from Stream 2: Machine Learning and Artificial Intelligence, as part of the [ECMWF Summer of Weather Code 2020](https://esowc.ecmwf.int/) Program.
+
+Team: Roshni Biswas, Anurag Saha Roy, Tejasvi S Tomar.
