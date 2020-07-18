@@ -6,6 +6,8 @@ The project intends to reproduce the Fire Forecasting capabilities of GEFF using
 
 ## Getting Started:
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/esowc/wildfire-forecasting/master)
+
 * **Clone this repo**:
 <br> `git clone https://github.com/esowc/wildfire-forecasting.git`
 <br> `cd wildfire-forecasting`
