@@ -7,14 +7,16 @@ The project intends to reproduce the Fire Forecasting capabilities of GEFF using
 ## Getting Started:
 
 * **Clone this repo**:
-<br> `git clone https://github.com/wikilimo/deepFWI.git`
-<br> `cd deepFWI`
+<br> `git clone https://github.com/esowc/wildfire-forecasting.git`
+<br> `cd wildfire-forecasting`
 
 * **Install dependencies**: To create the environment, run
 <br> `conda env create -f environment.yml`
 <br> `conda activate wildfire-dl`
 
     >The setup is tested on Ubuntu 18.04 only and might experience issues on any non-Linux systems. See [this](https://github.com/conda/conda/issues/7311) issue for further details.
+
+The above `conda recipe` does not install [`apex`](https://github.com/NVIDIA/apex). Please follow the instructions [here](https://github.com/NVIDIA/apex#quick-start) to install NVIDIA Apex which is used for 16-bit precision training.
 
 ## Running Inference
 
@@ -92,7 +94,7 @@ The project intends to reproduce the Fire Forecasting capabilities of GEFF using
 * The [data/](data) directory contains the Exploratory Data Analysis and Preprocessing required for each dataset demonstrated via Jupyter Notebooks.
   * Forcings data: [data/fwi_global/fwi_forcings.ipynb](data/fwi_global/fwi_forcings.ipynb)
   * Reanalysis data: [data/fwi_global/fwi_reanalysis.ipynb](data/fwi_global/fwi_reanalysis.ipynb)
-  * Forecast data: [data//fwi_global/fwi_forecast.ipynb](data/fwi_global/fwi_forecast.ipynb)
+  * Forecast data: [data/fwi_global/fwi_forecast.ipynb](data/fwi_global/fwi_forecast.ipynb)
 
 ### Acknowledgements
 
