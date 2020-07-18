@@ -94,7 +94,7 @@ The above `conda recipe` does not install [`apex`](https://github.com/NVIDIA/ape
 * The [data/](data) directory contains the Exploratory Data Analysis and Preprocessing required for each dataset demonstrated via Jupyter Notebooks.
   * Forcings data: [data/fwi_global/fwi_forcings.ipynb](data/fwi_global/fwi_forcings.ipynb)
   * Reanalysis data: [data/fwi_global/fwi_reanalysis.ipynb](data/fwi_global/fwi_reanalysis.ipynb)
-  * Forecast data: [data//fwi_global/fwi_forecast.ipynb](data/fwi_global/fwi_forecast.ipynb)
+  * Forecast data: [data/fwi_global/fwi_forecast.ipynb](data/fwi_global/fwi_forecast.ipynb)
 
 ### Acknowledgements
 
