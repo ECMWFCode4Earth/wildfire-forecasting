@@ -7,7 +7,7 @@ The project intends to reproduce the Fire Forecasting capabilities of GEFF using
 ## Getting Started:
 
 * **Clone this repo**:
-<br> `https://github.com/esowc/wildfire-forecasting`
+<br> `git clone https://github.com/esowc/wildfire-forecasting.git`
 <br> `cd wildfire-forecasting`
 
 * **Install dependencies**: To create the environment, run
