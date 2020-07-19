@@ -5,12 +5,14 @@ channels:
   - pytorch
   - anaconda
   - fastai
+channel_priority: strict
 dependencies:
   - fastai
   - pytorch
   - torchvision
   - jupyter
   - cudatoolkit=10.2
+  - rasterio
   - cfgrib
   - black
   - dask
@@ -79,7 +81,6 @@ dependencies:
     - pyqtchart==5.12
     - pyqtwebengine==5.12.1
     - pytorch-lightning==0.8.1
-    - rasterio==1.1.4
     - requests-oauthlib==1.3.0
     - rsa==4.0
     - sentry-sdk==0.14.4
