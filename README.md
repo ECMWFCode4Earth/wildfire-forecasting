@@ -16,7 +16,7 @@ The project intends to reproduce the Fire Forecasting capabilities of GEFF using
 <br> `conda env create -f environment.yml`
 <br> `conda activate wildfire-dl`
 
-    >The setup is tested on Ubuntu 18.04 only and might experience issues on any non-Linux systems. See [this](https://github.com/conda/conda/issues/7311) issue for further details.
+    >The setup is tested for development on Ubuntu 18.04 only and might experience issues on any non-Linux systems. See [this](https://github.com/conda/conda/issues/7311) issue for further details. We have experimental support for Ubuntu 20.04, Binder and Windows 10 (along with WSL Ubuntu 20.04), but things might still break on these platforms.
 
 The above `conda recipe` does not install [`apex`](https://github.com/NVIDIA/apex). Please follow the instructions [here](https://github.com/NVIDIA/apex#quick-start) to install NVIDIA Apex which is used for 16-bit precision training.
 
