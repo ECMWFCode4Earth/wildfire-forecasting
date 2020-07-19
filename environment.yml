@@ -58,6 +58,7 @@ dependencies:
     - gql==0.2.0
     - graphql-core==1.1
     - grpcio==1.29.0
+    - gsutil==4.52
     - hiddenlayer==0.2
     - itsdangerous==1.1.0
     - mako==1.1.3
