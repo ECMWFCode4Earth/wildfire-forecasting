@@ -6,6 +6,8 @@ The project intends to reproduce the Fire Forecasting capabilities of GEFF using
 
 ## Getting Started:
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/esowc/wildfire-forecasting/master)
+
 * **Clone this repo**:
 <br> `git clone https://github.com/esowc/wildfire-forecasting.git`
 <br> `cd wildfire-forecasting`
@@ -14,18 +16,21 @@ The project intends to reproduce the Fire Forecasting capabilities of GEFF using
 <br> `conda env create -f environment.yml`
 <br> `conda activate wildfire-dl`
 
-    >The setup is tested on Ubuntu 18.04 only and might experience issues on any non-Linux systems. See [this](https://github.com/conda/conda/issues/7311) issue for further details.
+    >The setup is tested for development on Ubuntu 18.04 only and might experience issues on any non-Linux systems. See [this](https://github.com/conda/conda/issues/7311) issue for further details. We have experimental support for Ubuntu 20.04, Binder and Windows 10 (along with WSL Ubuntu 20.04), but things might still break on these platforms.
 
 The above `conda recipe` does not install [`apex`](https://github.com/NVIDIA/apex). Please follow the instructions [here](https://github.com/NVIDIA/apex#quick-start) to install NVIDIA Apex which is used for 16-bit precision training.
 
 ## Running Inference
 
 * **Examples**:<br>
-  The [inference_2_1.ipynb](examples/inference_2_1.ipynb) and [inference_4_10.ipynb](examples/inference_4_10.ipynb) notebooks demonstrate the end-to-end procedure of loading data, creating model from saved checkpoint, and getting the predictions for 2 day input, 1 day forecast; and 4 day input, 10 day forecast experiments respectively.
+  The [inference_2_1.ipynb](examples/inference_2_1.ipynb) and [inference_4_10.ipynb](examples/inference_4_10.ipynb) notebooks demonstrate the end-to-end procedure of loading data, creating model from saved checkpoint, and getting the predictions for 2 day input, 1 day FWI prediction; and 4 day input, 10 day FWI prediction experiments respectively.
 * **Testing data**:<br>
   Ensure the access to fwi-forcings and fwi-reanalysis data.
 * **Obtain pre-trained model**:<br>
-  Place the model checkpoint file somewhere in your system and note the filepath.
+  Place the model checkpoint file somewhere in your system and note the filepath. 
+  * Checkpoint file for 2 day input, 1 day FWI prediction is available [here](src/model/checkpoints/pre_trained/2_1/epoch_41_100.ckpt)
+  * Checkpoint file for 4 day input, 10 day FWI prediction is available [here](src/model/checkpoints/pre_trained/4_10/epoch_99_100.ckpt)
+  
 * **Run the inference script**:<br>
   * Optionally set `$FORCINGS_DIR` and `$REANALYSIS_DIR` to override `$PWD` as the default location of data.
   `python src/test.py -in-days=2 -out-days=1 -forcings-dir=${FORCINGS_DIR:-$PWD} -reanalysis-dir=${REANALYSIS_DIR:-$PWD} -checkpoint-file='path/to/checkpoint'`
