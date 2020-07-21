@@ -27,7 +27,10 @@ The above `conda recipe` does not install [`apex`](https://github.com/NVIDIA/ape
 * **Testing data**:<br>
   Ensure the access to fwi-forcings and fwi-reanalysis data.
 * **Obtain pre-trained model**:<br>
-  Place the model checkpoint file somewhere in your system and note the filepath.
+  Place the model checkpoint file somewhere in your system and note the filepath. 
+  * Checkpoint file for 2 day input, 1 day output is available [here](src/model/checkpoints/pre_trained/2_1/epoch_41_100.ckpt)
+  * Checkpoint file for 4 day input, 10 day output is available [here](src/model/checkpoints/pre_trained/4_10/epoch_99_100.ckpt)
+  
 * **Run the inference script**:<br>
   * Optionally set `$FORCINGS_DIR` and `$REANALYSIS_DIR` to override `$PWD` as the default location of data.
   `python src/test.py -in-days=2 -out-days=1 -forcings-dir=${FORCINGS_DIR:-$PWD} -reanalysis-dir=${REANALYSIS_DIR:-$PWD} -checkpoint-file='path/to/checkpoint'`
