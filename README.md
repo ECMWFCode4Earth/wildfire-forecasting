@@ -23,13 +23,13 @@ The above `conda recipe` does not install [`apex`](https://github.com/NVIDIA/ape
 ## Running Inference
 
 * **Examples**:<br>
-  The [inference_2_1.ipynb](examples/inference_2_1.ipynb) and [inference_4_10.ipynb](examples/inference_4_10.ipynb) notebooks demonstrate the end-to-end procedure of loading data, creating model from saved checkpoint, and getting the predictions for 2 day input, 1 day forecast; and 4 day input, 10 day forecast experiments respectively.
+  The [inference_2_1.ipynb](examples/inference_2_1.ipynb) and [inference_4_10.ipynb](examples/inference_4_10.ipynb) notebooks demonstrate the end-to-end procedure of loading data, creating model from saved checkpoint, and getting the predictions for 2 day input, 1 day FWI prediction; and 4 day input, 10 day FWI prediction experiments respectively.
 * **Testing data**:<br>
   Ensure the access to fwi-forcings and fwi-reanalysis data.
 * **Obtain pre-trained model**:<br>
   Place the model checkpoint file somewhere in your system and note the filepath. 
-  * Checkpoint file for 2 day input, 1 day output is available [here](src/model/checkpoints/pre_trained/2_1/epoch_41_100.ckpt)
-  * Checkpoint file for 4 day input, 10 day output is available [here](src/model/checkpoints/pre_trained/4_10/epoch_99_100.ckpt)
+  * Checkpoint file for 2 day input, 1 day FWI prediction is available [here](src/model/checkpoints/pre_trained/2_1/epoch_41_100.ckpt)
+  * Checkpoint file for 4 day input, 10 day FWI prediction is available [here](src/model/checkpoints/pre_trained/4_10/epoch_99_100.ckpt)
   
 * **Run the inference script**:<br>
   * Optionally set `$FORCINGS_DIR` and `$REANALYSIS_DIR` to override `$PWD` as the default location of data.
