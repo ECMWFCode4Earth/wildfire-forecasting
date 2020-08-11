@@ -94,4 +94,3 @@ dependencies:
     - werkzeug==1.0.1
     - xshape==0.1.1
 prefix: /home/esowc/anaconda3/envs/wildfire-dl
-
