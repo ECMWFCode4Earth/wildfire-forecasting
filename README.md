@@ -25,7 +25,7 @@ The project intends to reproduce the Fire Forecasting capabilities of GEFF using
 * **Examples**:<br>
   The [inference_2_1.ipynb](examples/inference_2_1.ipynb) and [inference_4_10.ipynb](examples/inference_4_10.ipynb) notebooks demonstrate the end-to-end procedure of loading data, creating model from saved checkpoint, and getting the predictions for 2 day input, 1 day output; and 4 day input, 10 day output experiments respectively.
 * **Testing data**:<br>
-  Ensure the access to fwi-forcings and fwi-reanalysis data.
+  Ensure the access to fwi-forcings and fwi-reanalysis data. Limited sample data is available at `gs://deepfwi-mini-sample` (Released for educational purposes only).
 * **Obtain pre-trained model**:<br>
   Place the model checkpoint file somewhere in your system and note the filepath.
   * Checkpoint file for 2 day input, 1 day FWI prediction is available [here](src/model/checkpoints/pre_trained/2_1/epoch_41_100.ckpt)
