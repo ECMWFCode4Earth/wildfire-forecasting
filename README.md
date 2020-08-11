@@ -9,8 +9,8 @@ The project intends to reproduce the Fire Forecasting capabilities of GEFF using
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/esowc/wildfire-forecasting/master)
 
 - **Clone this repo**:
-<br> `git clone https://github.com/wikilimo/deepFWI.git`
-<br> `cd deepFWI`
+<br> `git clone https://github.com/esowc/wildfire-forecasting.git`
+<br> `cd wildfire-forecasting`
 
 * **Using conda**: To create the environment, run
 <br> `conda env create -f environment.yml`
