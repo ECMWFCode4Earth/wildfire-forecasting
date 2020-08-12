@@ -12,6 +12,7 @@ USER 1001:1001
 COPY --chown=1001:1001 environment.yml /usr/app
 RUN /opt/conda/bin/conda init {bash,fish}
 RUN /opt/conda/bin/conda create --name deepfwi --clone caliban
+RUN /opt/conda/bin/conda init {bash,fish}
 RUN /opt/conda/bin/conda activate caliban
 
 RUN if [ "$GPU" = 1 ]; then \
