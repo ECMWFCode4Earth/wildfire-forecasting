@@ -83,10 +83,8 @@ The project intends to reproduce the Fire Forecasting capabilities of GEFF using
 
 * The [data/EDA/](data/EDA/) directory contains the Exploratory Data Analysis and Preprocessing required for each dataset demonstrated via Jupyter Notebooks.
   * Forcings data: [data/EDA/fwi_forcings.ipynb](data/EDA/fwi_forcings.ipynb)
-  * Soil moisture data: [data/EDA/soil_moisture.ipynb](data/EDA/soil_moisture.ipynb)
   * Reanalysis data: [data/EDA/fwi_reanalysis.ipynb](data/EDA/fwi_reanalysis.ipynb)
   * Forecast data: [data/EDA/fwi_forecast.ipynb](data/EDA/fwi_forecast.ipynb)
-  * FRP data: [data/EDA/frp.ipynb](data/EDA/frp.ipynb)
   
 * A walk-through of the codebase is in the [Code_Structure_Overview.md](Code_Structure_Overview.md).
 
