@@ -15,12 +15,12 @@ The project intends to reproduce the Fire Forecasting capabilities of GEFF using
 * **Using conda**: To create the environment, run
 <br> `conda env create -f environment.yml`
 <br> `conda activate wildfire-dl`
+    >The setup is tested on Ubuntu 18.04 only and will not work on any non-Linux systems. See [this](https://github.com/conda/conda/issues/7311) issue for further details.
 
 * **Using docker**: To create the image and container, run
 <br> `docker build -t deepfwi .`
 <br> `docker docker run -it deepfwi`
 
-    >The setup is tested on Ubuntu 18.04 only and will not work on any non-Linux systems. See [this](https://github.com/conda/conda/issues/7311) issue for further details.
 ## Running Inference
 * **Examples**:<br>
   The [inference_2_1.ipynb](examples/inference_2_1.ipynb) and [inference_4_10.ipynb](examples/inference_4_10.ipynb) notebooks demonstrate the end-to-end procedure of loading data, creating model from saved checkpoint, and getting the predictions for 2 day input, 1 day output; and 4 day input, 10 day output experiments respectively.
