@@ -20,25 +20,11 @@ training.
     """
 
     def __init__(
-        self,
-        out_var=None,
-        out_mean=None,
-        forecast_dir=None,
-        forcings_dir=None,
-        reanalysis_dir=None,
-        hparams=None,
-        **kwargs,
+        self, forcings_dir=None, reanalysis_dir=None, hparams=None, **kwargs,
     ):
         """
         Constructor for the ModelDataset class
 
-        :param out_var: Variance of the output variable, defaults to None
-        :type out_var: float, optional
-        :param out_mean: Mean of the output variable, defaults to None
-        :type out_mean: float, optional
-        :param forecast_dir: The directory containing the FWI-Forecast data, defaults \
-to None
-        :type forecast_dir: str, optional
         :param forcings_dir: The directory containing the FWI-Forcings data, defaults \
 to None
         :type forcings_dir: str, optional
@@ -50,9 +36,6 @@ to defaults to None
         """
 
         super().__init__(
-            out_var=out_var,
-            out_mean=out_mean,
-            forecast_dir=forecast_dir,
             forcings_dir=forcings_dir,
             reanalysis_dir=reanalysis_dir,
             hparams=hparams,
@@ -80,7 +63,7 @@ to defaults to None
             data_vars="minimal",
             compat="override",
         ) as ds:
-            self.input = ds.sortby("time")
+            input_ = ds.sortby("time")
 
         with xr.open_mfdataset(
             out_files,
@@ -107,7 +90,7 @@ to defaults to None
 
         # The t=0 dates
         self.dates = []
-        for t in self.input.time.values:
+        for t in self.output.time.values:
             t = t.astype("datetime64[D]")
             if (
                 # Date is within the range if specified
@@ -121,11 +104,23 @@ to defaults to None
                     or min([r[0] <= t <= r[-1] for r in self.hparams.case_study_dates])
                 )
                 # Input data for preceding dates is available
-                and all(
-                    [
-                        t - np.timedelta64(i, "D") in self.input.time.values
-                        for i in range(self.hparams.in_days)
-                    ]
+                and (
+                    all(
+                        [
+                            t - np.timedelta64(i, "D") in input_.time.values
+                            for i in range(self.hparams.in_days)
+                        ]
+                    )
+                    and (
+                        all(
+                            [
+                                t - np.timedelta64(i, "D") in smos_input.time.values
+                                for i in range(self.hparams.in_days)
+                            ]
+                        )
+                        if self.hparams.smos_input
+                        else True
+                    )
                 )
                 # Output data for later dates is available
                 and all(
@@ -141,22 +136,7 @@ to defaults to None
 
         self.min_date = min(self.dates)
 
-        # Required dates for operating on t=0 dates
-        in_dates_spread = list(
-            set(
-                sum(
-                    [
-                        [
-                            d + np.timedelta64(i + 1 - self.hparams.in_days, "D")
-                            for i in range(self.hparams.in_days)
-                        ]
-                        for d in self.dates
-                    ],
-                    [],
-                )
-            )
-        )
-
+        # Required output dates for operating on t=0 dates
         out_dates_spread = list(
             set(
                 sum(
@@ -173,15 +153,32 @@ to defaults to None
         )
 
         # Load the data only for required dates
-        self.input, self.output = (
-            self.input.sel(time=in_dates_spread).load(),
-            self.output.sel(time=out_dates_spread).load(),
-        )
-        if self.hparams.smos_input:
-            smos_input = smos_input.sel(time=in_dates_spread, method="nearest")
-            # Drop duplicates
-            self.smos_input = smos_input.isel(
-                time=np.unique(smos_input["time"], return_index=True)[1]
-            ).load()
+        self.output = self.output.sel(time=out_dates_spread).load()
+
+        if not self.hparams.benchmark:
+            # Required input dates for operating on t=0 dates
+            in_dates_spread = list(
+                set(
+                    sum(
+                        [
+                            [
+                                d + np.timedelta64(i + 1 - self.hparams.in_days, "D")
+                                for i in range(self.hparams.in_days)
+                            ]
+                            for d in self.dates
+                        ],
+                        [],
+                    )
+                )
+            )
+
+            self.input = input_.sel(time=in_dates_spread).load()
+
+            if self.hparams.smos_input:
+                smos_input = smos_input.sel(time=in_dates_spread, method="nearest")
+                # Drop duplicates
+                self.smos_input = smos_input.isel(
+                    time=np.unique(smos_input["time"], return_index=True)[1]
+                ).load()
 
         log.info(f"Start date: {min(self.dates)}\nEnd date: {max(self.dates)}")

@@ -20,6 +20,7 @@ import torch
 import pytorch_lightning as pl
 
 # from pytorch_lightning.loggers import TensorBoardLogger
+from pytorch_lightning import _logger as log
 from pytorch_lightning.loggers import WandbLogger
 import wandb
 
@@ -168,7 +169,9 @@ def main(hparams):
     signal.signal(signal.SIGINT or 255, trainer.test)
 
     trainer.fit(model)
-    trainer.test()
+    results = trainer.test()
+
+    return results
 
 
 def set_hparams(hparams):
@@ -183,6 +186,13 @@ def set_hparams(hparams):
 
     # Check for CUDA availability if gpus > 0 requested
     if hparams.gpus and not torch.cuda.is_available():
+        hparams.gpus = 0
+
+    if hparams.benchmark:
+        # Use empty model while benchmarking with fwi-forecast
+        hparams.model = "base_model"
+        hparams.out = "fwi_reanalysis"
+        hparams.eval = True
         hparams.gpus = 0
 
     if hparams.case_study:
@@ -301,28 +311,38 @@ def get_model(hparams):
     # Update hparams with the constants
     set_hparams(hparams)
 
-    Model = importlib.import_module(f"model.{hparams.model}").Model
-    if hparams.model in ["unet"]:
-        if hparams.out == "fwi_forecast":
-            ModelDataset = importlib.import_module(
-                f"dataloader.{hparams.out}"
-            ).ModelDataset
-    elif hparams.model in [
-        "unet_downsampled",
-        "unet_snipped",
-        "unet_tapered",
-    ]:
+    if hparams.model in ["base_model"]:
+        Model = importlib.import_module(f"model.{hparams.model}").BaseModel
         if hparams.out == "fwi_reanalysis":
             ModelDataset = importlib.import_module(
                 f"dataloader.{hparams.out}"
             ).ModelDataset
-    elif hparams.model in ["unet_interpolated"]:
-        if hparams.out == "gfas_frp":
-            ModelDataset = importlib.import_module(
-                f"dataloader.{hparams.out}"
+            ModelDataset.BenchmarkDataset = importlib.import_module(
+                "dataloader.fwi_forecast"
             ).ModelDataset
     else:
-        raise ImportError(f"{hparams.model} and {hparams.out} combination invalid.")
+        Model = importlib.import_module(f"model.{hparams.model}").Model
+        if hparams.model in ["unet"]:
+            if hparams.out == "fwi_forecast":
+                ModelDataset = importlib.import_module(
+                    f"dataloader.{hparams.out}"
+                ).ModelDataset
+        elif hparams.model in [
+            "unet_downsampled",
+            "unet_snipped",
+            "unet_tapered",
+        ]:
+            if hparams.out == "fwi_reanalysis":
+                ModelDataset = importlib.import_module(
+                    f"dataloader.{hparams.out}"
+                ).ModelDataset
+        elif hparams.model in ["unet_interpolated"]:
+            if hparams.out == "gfas_frp":
+                ModelDataset = importlib.import_module(
+                    f"dataloader.{hparams.out}"
+                ).ModelDataset
+        else:
+            raise ImportError(f"{hparams.model} and {hparams.out} combination invalid.")
 
     model = Model(hparams).to("cuda" if hparams.gpus else "cpu")
     model.prepare_data(ModelDataset)
@@ -341,23 +361,23 @@ def str2num(s):
     if isinstance(s, bool):
         return s
     s = str(s)
+    if "," in s:
+        return [str2num(i) for i in s.split(",")]
     if "." in s or "e-" in s:
         try:
             return float(s)
         except:
             pass
-    if "," in s:
-        return [str2num(i) for i in s.split(",")]
     elif s.isdigit():
         return int(s)
-    elif s == "inf":
+    elif s.lower() == "inf":
         return float("inf")
-    elif s == "None":
+    elif s.lower() == "none":
         return None
     else:
-        if s == "True":
+        if s.lower() == "true":
             return True
-        elif s == "False":
+        elif s.lower() == "false":
             return False
     return s
 
@@ -372,7 +392,6 @@ def get_hparams(
     # General
     epochs: ("Number of training epochs [int]", "option") = 100,
     learning_rate: ("Maximum learning rate [float]", "option") = 1e-3,
-    loss: ("Loss function: mae, mse [str]", "option") = "mse",
     batch_size: ("Batch size of the input [int]", "option") = 1,
     split: ("Test split fraction [float]", "option") = 0.2,
     use_16bit: ("Use 16-bit precision for training (train only)", "option") = True,
@@ -396,20 +415,23 @@ def get_hparams(
         "option",
     ) = False,
     clip_output: (
-        "Limit the inference to the datapoints within supplied range (e.g. 0.5,60) [Bool/list]",
+        "Limit the inference to the datapoints within supplied range (e.g. 0.5,60) "
+        "[Bool/list]",
         "option",
     ) = False,
     boxcox: (
         "Apply boxcox transformation with specified lambda while training and the "
         "inverse boxcox transformation during the inference. [Bool/float]",
         "option",
-    ) = False,
+    ) = 0.1182,
     binned: (
-        "Show the extended metrics for supplied comma separated binned FWI value range (e.g. 0,15,70) [Bool/list]",
+        "Show the extended metrics for supplied comma separated binned FWI value range "
+        "(e.g. 0,15,70) [Bool/list]",
         "option",
-    ) = False,
+    ) = "0,5.2,11.2,21.3,38.0,50",
     round_to_zero: (
-        "Round off the target values below the specified threshold to zero [Bool/float]",
+        "Round off the target values below the specified threshold to zero "
+        "[Bool/float]",
         "option",
     ) = False,
     isolate_frp: (
@@ -417,7 +439,9 @@ def get_hparams(
         "option",
     ) = False,
     date_range: (
-        "Filter the data with specified date range. E.g. 2019-04-01,2019-05-01 [Bool/str]",
+        "Filter the data with specified date range in YYYY-MM-DD format. E.g. "
+        "2019-04-01,2019-05-01 "
+        "[Bool/str]",
         "option",
     ) = False,
     cb_loss: (
@@ -440,9 +464,13 @@ def get_hparams(
         "option",
     ) = "unet_tapered",
     out: (
-        "Output data for training: fwi_forecast or fwi_reanalysis or gfas_frp [str]",
+        "Output data for training: fwi_reanalysis or gfas_frp [str]",
         "option",
     ) = "fwi_reanalysis",
+    benchmark: (
+        "Benchmark the FWI-Forecast data against FWI-Reanalysis [Bool]",
+        "option",
+    ) = False,
     smos_input: ("Use soil-moisture input data [Bool]", "option") = "False",
     forecast_dir: (
         "Directory containing the forecast data. Alternatively set $FORECAST_DIR [str]",
@@ -457,7 +485,8 @@ def get_hparams(
         "option",
     ) = os.environ.get("SMOS_DIR"),
     reanalysis_dir: (
-        "Directory containing the reanalysis data. Alternatively set $REANALYSIS_DIR. [str]",
+        "Directory containing the reanalysis data. Alternatively set $REANALYSIS_DIR. "
+        "[str]",
         "option",
     ) = os.environ.get("REANALYSIS_DIR"),
     frp_dir: (
@@ -482,7 +511,7 @@ def get_hparams(
     """
     d = {k: str2num(v) for k, v in locals().items()}
     for k, v in d.items():
-        print(f" |{k.replace('_', '-'):>20} -> {str(v):<20}")
+        log.info(f" |{k.replace('_', '-'):>20} -> {str(v):<20}")
     return d
 
 
@@ -492,9 +521,9 @@ if __name__ == "__main__":
     """
 
     # Converting dictionary to namespace
-    hyperparams = Namespace(**plac.call(get_hparams, eager=False))
+    hparams = Namespace(**plac.call(get_hparams, eager=False))
     # ---------------------
     # RUN TRAINING
     # ---------------------
 
-    main(hyperparams)
+    main(hparams)

@@ -277,14 +277,12 @@ passed in as `batch`.
                 assert loss == loss
 
                 # Accuracy for a threshold
-                n_correct_pred = (
-                    ((y - y_hat).abs() < model.hparams.thresh).float().mean()
-                )
-                abs_error = (y - y_hat).abs().float().mean()
+                acc = ((y - y_hat).abs() < model.hparams.thresh).float().mean()
+                mae = (y - y_hat).abs().float().mean()
 
                 tensorboard_logs["val_loss"][str(c)] = loss
-                tensorboard_logs["n_correct_pred"][str(c)] = n_correct_pred
-                tensorboard_logs["abs_error"][str(c)] = abs_error
+                tensorboard_logs["acc"][str(c)] = acc
+                tensorboard_logs["mae"][str(c)] = mae
 
         val_loss = torch.stack(list(tensorboard_logs["val_loss"].values())).mean()
         tensorboard_logs["_val_loss"] = val_loss
@@ -333,27 +331,18 @@ passed in as `batch`.
                         (y_hat < self.hparams.clip_output[-1])
                         & (self.hparams.clip_output[0] < y_hat)
                     ]
-                pre_loss = (
-                    (y_hat - y).abs()
-                    if model.hparams.loss == "mae"
-                    else (y_hat - y) ** 2
-                )
+
+                pre_loss = (y_hat - y) ** 2
                 loss = pre_loss.mean()
                 assert loss == loss
 
                 # Accuracy for a threshold
-                n_correct_pred = (
-                    ((y - y_hat).abs() < self.hparams.out_mad / 2).float().mean()
-                )
-                abs_error = (
-                    (y - y_hat).abs().float().mean()
-                    if model.hparams.loss == "mae"
-                    else (y - y_hat).abs().float().mean()
-                )
+                acc = ((y - y_hat).abs() < self.hparams.out_mad / 2).float().mean()
+                mae = (y - y_hat).abs().float().mean()
 
                 tensorboard_logs["test_loss"][str(c)] = loss
-                tensorboard_logs["n_correct_pred_test"][str(c)] = n_correct_pred
-                tensorboard_logs["abs_error_test"][str(c)] = abs_error
+                tensorboard_logs["acc_test"][str(c)] = acc
+                tensorboard_logs["mae_test"][str(c)] = mae
 
         test_loss = torch.stack(list(tensorboard_logs["test_loss"].values())).mean()
         tensorboard_logs["_test_loss"] = test_loss

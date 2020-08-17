@@ -12,9 +12,9 @@ To add a new input variable:
 * Update input tensor generation in Dataset.__getitem__().
 * Update self.in_channels in BaseModel.__init__() corresponding to the number of input variables.
 
-* [fwi_forecast.py](src/dataloader/fwi_forecast.py) implements `__init__` specific to FWI Forecast data.
-* [fwi_reanalysis.py](src/dataloader/fwi_reanalysis.py) implements `__init__`, `training_step`, `validation_step`, and `test_step` specific to FWI Reanalysis data along with the corresponding case-study coordinates.
-* [gfas_frp.py](src/dataloader/gfas_frp.py) implements `__init__`, `training_step`, `validation_step`, and `test_step` specific to FWI Reanalysis data along with the corresponding case-study.
+* [fwi_forecast.py](src/dataloader/fwi_forecast.py) implements `__init__` specific to FWI Forecast data used for benchmarking purposes. (*Resolution: 2560x5120, 1 day*)
+* [fwi_reanalysis.py](src/dataloader/fwi_reanalysis.py) implements `__init__`, `training_step`, `validation_step`, and `test_step` specific to FWI Reanalysis data along with the corresponding case-study coordinates. (*Forcings resolution: 640x1280, 1 day; Soil moisture Resolution: 600x1440, 3 days; FWI-Reanalysis resolution: 640x1280, 1 day*)
+* [gfas_frp.py](src/dataloader/gfas_frp.py) implements `__init__`, `training_step`, `validation_step`, and `test_step` specific to FWI Reanalysis data along with the corresponding case-study. (*Resolution: 1800x3600, 1 day*)
 
 The [model](src/model) directory contains modules related to objective functions, optimizations, and network architectures. To add a custom model class called `dummy`, you need to add a file called `dummy_model.py` and define a subclass `DummyModel` inherited from `BaseModel` defined in [base_model.py](src/model/base_model.py). You need to implement four functions: `__init__` (initialize the class; you need to first call `BaseModel.__init__(self, opt)`), `forward` (generate intermediate results), `training_epoch_end` (aggregation of training metrics and loss), `validation_epoch_end`(aggregation of validation metrics and validation loss), and `test_epoch_end` (Aggregation of inference metrics and test loss), and optionally `configure_optimizers` (tweak learning rate schedulers and optimizers). Now you can use the model class by specifying flag `-model dummy`. See example model [class](src/model/unet.py).
 
