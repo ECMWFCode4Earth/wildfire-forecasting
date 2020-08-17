@@ -1,6 +1,6 @@
 # Forecasting Wildfire Danger Using Deep Learning
 
-[![Documentation Status](https://readthedocs.org/projects/wildfire-forecasting/badge/?version=latest)](https://wildfire-forecasting.readthedocs.io/en/latest/?badge=latest)  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/esowc/wildfire-forecasting/master)
+[![Documentation Status](https://readthedocs.org/projects/wildfire-forecasting/badge/?version=latest)](https://wildfire-forecasting.readthedocs.io/en/latest/?badge=latest)  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/esowc/wildfire-forecasting/master) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/esowc/wildfire-forecasting/blob/master/examples/Sample_Inference_4_10.ipynb)
 
 
 The current Global ECMWF Fire Forecasting (GEFF) is based on empirical models implemented in FORTRAN several decades back. To take advantage of developments in GIS & Machine Learning and increase forecasting coverage, these models need to be adopted to Deep Learning based prediction techniques. 
@@ -8,7 +8,8 @@ The current Global ECMWF Fire Forecasting (GEFF) is based on empirical models im
 The project intends to reproduce the Fire Forecasting capabilities of GEFF using Deep Learning and develop further improvements in accuracy, geography and time scale through inclusion of additional variables or optimisation of model architecture & hyperparameters. Finally, a preliminary fire spread prediction tool is proposed to allow monitoring activities.
 
 ## TL; DR
-This codebase (and this README) is a work-in-progress. We are constantly refactoring and introducing breaking changes. Here's a quick few steps to get going:
+
+This codebase (and this README) is a work-in-progress. We are constantly refactoring and introducing breaking changes. Here's a quick few steps that *just work* to get going:
 
 * Clone the repo and create a conda environment using `minimal_environment.yml` on Ubuntu 18.04 and 20.04 only.
 * Check the EDA notebooks titled [`EDA_XXX_mini_sample.ipynb`](data/EDA). We recommend `jupyterlab`.
