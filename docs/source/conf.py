@@ -27,6 +27,10 @@ author = "Roshni Biswas, Anurag Saha Roy, Tejasvi S Tomar"
 # The full version, including alpha/beta/rc tags
 release = "0.2"
 
+# specify the master doc, otherwise the build at read the docs fails
+master_doc = 'index'
+
+
 
 # -- General configuration ---------------------------------------------------
 
