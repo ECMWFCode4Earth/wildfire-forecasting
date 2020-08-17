@@ -14,7 +14,7 @@ This codebase (and this README) is a work-in-progress. We are constantly refacto
 
 For a deeper dive, read the instructions below or head straight to [`Code_Structure_Overview.md`](Code_Structure_Overview.md) and then explore your way around [`train.py`](src/train.py), [`test.py`](src/test.py), [`dataloader/`](src/dataloader/) and [`model/`](src/model/).
 
-You can build the docs using `cd docs && make html` and then read the docs at [`docs/build/html/`](docs/build/html/index.html).
+You can build the docs using `cd docs && make html` and then read the docs at [`docs/build/html/`](docs/build/html/index.html). Static docs can be viewed online on [Readthedocs](https://wildfire-forecasting.readthedocs.io/en/master/)
 
 ## Getting Started:
 
