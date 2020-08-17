@@ -73,7 +73,11 @@ defaults to None
                 np.datetime64(d) for d in self.hparams.date_range
             ]
         # Convert case-study dates to numpy format
-        if hasattr(self.hparams, "case_study_dates") and not self.hparams.date_range:
+        if (
+            hasattr(self.hparams, "case_study_dates")
+            and self.hparams.case_study_dates
+            and not self.hparams.date_range
+        ):
             self.hparams.case_study_dates = [
                 [np.datetime64(d) for d in r] for r in self.hparams.case_study_dates
             ]
@@ -85,46 +89,50 @@ defaults to None
         if self.hparams.undersample:
             self.undersampler = RandomUnderSampler()
 
-        # Input transforms including mean and std normalization
-        self.transform = transforms.Compose(
-            [
-                transforms.ToTensor(),
-                # Mean and standard deviation stats used to normalize the input data to
-                # the mean of zero and standard deviation of one.
-                transforms.Normalize(
-                    [
-                        x
-                        for i in range(self.hparams.in_days)
-                        for x in (
-                            self.hparams.inp_mean["rh"],
-                            self.hparams.inp_mean["t2"],
-                            self.hparams.inp_mean["tp"],
-                            self.hparams.inp_mean["wspeed"],
-                        )
-                    ]
-                    + (
-                        [self.hparams.smos_mean for i in range(self.hparams.in_days)]
-                        if self.hparams.smos_input
-                        else []
+        if not self.hparams.benchmark:
+            # Input transforms including mean and std normalization
+            self.transform = transforms.Compose(
+                [
+                    transforms.ToTensor(),
+                    # Mean and standard deviation stats used to normalize the input data
+                    # to the mean of zero and standard deviation of one.
+                    transforms.Normalize(
+                        [
+                            x
+                            for i in range(self.hparams.in_days)
+                            for x in (
+                                self.hparams.inp_mean["rh"],
+                                self.hparams.inp_mean["t2"],
+                                self.hparams.inp_mean["tp"],
+                                self.hparams.inp_mean["wspeed"],
+                            )
+                        ]
+                        + (
+                            [
+                                self.hparams.smos_mean
+                                for i in range(self.hparams.in_days)
+                            ]
+                            if self.hparams.smos_input
+                            else []
+                        ),
+                        [
+                            x
+                            for i in range(self.hparams.in_days)
+                            for x in (
+                                self.hparams.inp_std["rh"],
+                                self.hparams.inp_std["t2"],
+                                self.hparams.inp_std["tp"],
+                                self.hparams.inp_std["wspeed"],
+                            )
+                        ]
+                        + (
+                            [self.hparams.smos_std for i in range(self.hparams.in_days)]
+                            if self.hparams.smos_input
+                            else []
+                        ),
                     ),
-                    [
-                        x
-                        for i in range(self.hparams.in_days)
-                        for x in (
-                            self.hparams.inp_std["rh"],
-                            self.hparams.inp_std["t2"],
-                            self.hparams.inp_std["tp"],
-                            self.hparams.inp_std["wspeed"],
-                        )
-                    ]
-                    + (
-                        [self.hparams.smos_std for i in range(self.hparams.in_days)]
-                        if self.hparams.smos_input
-                        else []
-                    ),
-                ),
-            ]
-        )
+                ]
+            )
 
     def __len__(self):
         """
@@ -148,39 +156,55 @@ defaults to None
         if torch.is_tensor(idx):
             idx = idx.tolist()
 
-        X = self.transform(
-            np.stack(
-                [
-                    self.input[v]
-                    .sel(time=[self.dates[idx] - np.timedelta64(i, "D")])
-                    .values.squeeze()
-                    for i in range(self.hparams.in_days)
-                    for v in ["rh", "t2", "tp", "wspeed"]
-                ]
-                + (
+        if self.hparams.benchmark:
+            X = torch.from_numpy(
+                np.stack(
                     [
                         resize(
-                            np.nan_to_num(
-                                self.smos_input[list(self.smos_input.data_vars)[0]]
-                                .sel(
-                                    time=[self.dates[idx] - np.timedelta64(i, "D")],
-                                    method="nearest",
-                                )
-                                .values.squeeze()[::-1],
-                                copy=False,
-                                # Use 50 as the placeholder for water bodies
-                                nan=50,
-                            ),
-                            self.input.rh[0].shape,
+                            self.input[list(self.input.data_vars)[0]]
+                            .sel(time=[self.dates[idx]], lead=[i])
+                            .values.squeeze(),
+                            self.output[list(self.output.data_vars)[0]][0].shape,
                         )
-                        for i in range(self.hparams.in_days)
-                    ]
-                    if self.hparams.smos_input
-                    else []
-                ),
-                axis=-1,
+                        for i in range(self.hparams.out_days)
+                    ],
+                    axis=0,
+                )
             )
-        )
+        else:
+            X = self.transform(
+                np.stack(
+                    [
+                        self.input[v]
+                        .sel(time=[self.dates[idx] - np.timedelta64(i, "D")])
+                        .values.squeeze()
+                        for i in range(self.hparams.in_days)
+                        for v in ["rh", "t2", "tp", "wspeed"]
+                    ]
+                    + (
+                        [
+                            resize(
+                                np.nan_to_num(
+                                    self.smos_input[list(self.smos_input.data_vars)[0]]
+                                    .sel(
+                                        time=[self.dates[idx] - np.timedelta64(i, "D")],
+                                        method="nearest",
+                                    )
+                                    .values.squeeze()[::-1],
+                                    copy=False,
+                                    # Use 50 as the placeholder for water bodies
+                                    nan=50,
+                                ),
+                                self.input.rh[0].shape,
+                            )
+                            for i in range(self.hparams.in_days)
+                        ]
+                        if self.hparams.smos_input
+                        else []
+                    ),
+                    axis=-1,
+                )
+            )
 
         y = torch.from_numpy(
             np.stack(
@@ -319,7 +343,7 @@ passed in as `batch`.
         tensorboard_logs["_train_loss_unscaled"] = loss
         # model.logger.log_metrics(tensorboard_logs)
         return {
-            "loss": loss.true_divide(model.data.out_var * model.hparams.out_days),
+            "loss": loss.true_divide(model.data.out_var * self.hparams.out_days),
             "_log": tensorboard_logs,
         }
 
@@ -350,12 +374,12 @@ passed in as `batch`.
 
                 # Accuracy for a threshold
                 abs_diff = (y - y_hat).abs()
-                n_correct_pred = (abs_diff < model.hparams.thresh).float().mean()
-                abs_error = abs_diff.mean()
+                acc = (abs_diff < self.hparams.thresh).float().mean()
+                mae = abs_diff.mean()
 
                 tensorboard_logs["val_loss"][str(c)] = loss
-                tensorboard_logs["n_correct_pred"][str(c)] = n_correct_pred
-                tensorboard_logs["abs_error"][str(c)] = abs_error
+                tensorboard_logs["acc"][str(c)] = acc
+                tensorboard_logs["mae"][str(c)] = mae
 
         val_loss = torch.stack(list(tensorboard_logs["val_loss"].values())).mean()
         tensorboard_logs["_val_loss"] = val_loss
@@ -364,6 +388,88 @@ passed in as `batch`.
             "val_loss": val_loss,
             "log": tensorboard_logs,
         }
+
+    def inference_step(self, y_pre, y_hat_pre):
+        """
+        Run inference for the target and predicted values and return the loss and the \
+metrics values as logs.
+
+        :param y_pre: Label values
+        :type y_pre: torch.Tensor
+        :param y_hat_pre: Predicted value
+        :type y_hat_pre: torch.Tensor
+        :return: Loss and the log dictionary
+        :rtype: tuple
+        """
+        y_pre, y_hat_pre = self.apply_mask(y_pre, y_hat_pre)
+
+        tensorboard_logs = defaultdict(dict)
+
+        for b in range(y_pre.shape[0]):
+            for c in range(y_pre.shape[1]):
+                y = y_pre[b][c]
+                y_hat = y_hat_pre[b][c]
+
+                if self.hparams.boxcox and not self.hparams.benchmark:
+                    # Negative predictions give NaN after inverse-boxcox
+                    y_hat[y_hat < 0] = 0
+                    y_hat = torch.from_numpy(
+                        inv_boxcox(y_hat.cpu().numpy(), self.hparams.boxcox)
+                    ).to(y_hat.device)
+
+                if not y.numel():
+                    return None
+
+                pre_loss = (y_hat - y) ** 2
+
+                loss = lambda low, high: pre_loss[(y > low) & (y <= high)].mean()
+                assert loss(y.min(), y.max()) == loss(y.min(), y.max())
+
+                # Accuracy for a threshold
+                acc = (
+                    lambda low, high: (
+                        (y - y_hat)[(y > low) & (y <= high)].abs() < self.hparams.thresh
+                    )
+                    .float()
+                    .mean()
+                )
+
+                # Mean absolute error
+                mae = (
+                    lambda low, high: (y - y_hat)[(y > low) & (y <= high)]
+                    .abs()
+                    .float()
+                    .mean()
+                )
+
+                tensorboard_logs["mse"][str(c)] = loss(y.min(), y.max())
+                tensorboard_logs["acc"][str(c)] = acc(y.min(), y.max())
+                tensorboard_logs["mae"][str(c)] = mae(y.min(), y.max())
+
+                # Inference on binned values
+                if self.hparams.binned:
+                    for i in range(len(self.bin_intervals) - 1):
+                        low, high = (
+                            self.bin_intervals[i],
+                            self.bin_intervals[i + 1],
+                        )
+                        tensorboard_logs[f"mse_{low}_{high}"][str(c)] = loss(low, high)
+                        tensorboard_logs[f"acc_{low}_{high}"][str(c)] = acc(low, high)
+                        tensorboard_logs[f"mae_{low}_{high}"][str(c)] = mae(low, high)
+                    tensorboard_logs[f"mse_{self.bin_intervals[-1]}inf"][str(c)] = loss(
+                        self.bin_intervals[-1], y.max()
+                    )
+                    tensorboard_logs[f"acc_{self.bin_intervals[-1]}inf"][str(c)] = acc(
+                        self.bin_intervals[-1], y.max()
+                    )
+                    tensorboard_logs[f"mae_{self.bin_intervals[-1]}inf"][str(c)] = mae(
+                        self.bin_intervals[-1], y.max()
+                    )
+
+        inference_loss = torch.stack(list(tensorboard_logs["mse"].values())).mean()
+        tensorboard_logs["_inference_loss"] = inference_loss
+
+        return inference_loss, tensorboard_logs
 
     def test_step(self, model, batch):
         """
@@ -379,89 +485,31 @@ passed in as `batch`.
         """
         x, y_pre = batch
         y_hat_pre = model(x)
-        y_pre, y_hat_pre = self.apply_mask(y_pre, y_hat_pre)
 
-        tensorboard_logs = defaultdict(dict)
-        for b in range(y_pre.shape[0]):
-            for c in range(y_pre.shape[1]):
-                y = y_pre[b][c]
-                y_hat = y_hat_pre[b][c]
-
-                if self.hparams.boxcox:
-                    # Negative predictions give NaN after inverse-boxcox
-                    y_hat[y_hat < 0] = 0
-                    y_hat = torch.from_numpy(
-                        inv_boxcox(y_hat.cpu().numpy(), self.hparams.boxcox)
-                    ).to(y_hat.device)
-
-                if not y.numel():
-                    return None
-
-                pre_loss = (
-                    (y_hat - y).abs()
-                    if model.hparams.loss == "mae"
-                    else (y_hat - y) ** 2
-                )
-
-                loss = lambda low, high: pre_loss[(y > low) & (y <= high)].mean()
-                assert loss(y.min(), y.max()) == loss(y.min(), y.max())
-
-                # Accuracy for a threshold
-                n_correct_pred = (
-                    lambda low, high: (
-                        (y - y_hat)[(y > low) & (y <= high)].abs()
-                        < model.hparams.thresh
-                    )
-                    .float()
-                    .mean()
-                )
-
-                # Mean absolute error
-                abs_error = (
-                    lambda low, high: (y - y_hat)[(y > low) & (y <= high)]
-                    .abs()
-                    .float()
-                    .mean()
-                    if model.hparams.loss == "mae"
-                    else (y - y_hat)[(y > low) & (y <= high)].abs().float().mean()
-                )
-
-                tensorboard_logs["test_loss"][str(c)] = loss(y.min(), y.max())
-                tensorboard_logs["n_correct_pred"][str(c)] = n_correct_pred(
-                    y.min(), y.max()
-                )
-                tensorboard_logs["abs_error"][str(c)] = abs_error(y.min(), y.max())
-
-                # Inference on binned values
-                if self.hparams.binned:
-                    for i in range(len(self.bin_intervals) - 1):
-                        low, high = (
-                            self.bin_intervals[i],
-                            self.bin_intervals[i + 1],
-                        )
-                        tensorboard_logs[f"test_loss_{low}_{high}"][str(c)] = loss(
-                            low, high
-                        )
-                        tensorboard_logs[f"n_correct_pred_{low}_{high}"][
-                            str(c)
-                        ] = n_correct_pred(low, high)
-                        tensorboard_logs[f"abs_error_{low}_{high}"][str(c)] = abs_error(
-                            low, high
-                        )
-                    tensorboard_logs[f"test_loss_{self.bin_intervals[-1]}_max"][
-                        str(c)
-                    ] = loss(self.bin_intervals[-1], y.max())
-                    tensorboard_logs[f"n_correct_pred_{self.bin_intervals[-1]}_max"][
-                        str(c)
-                    ] = n_correct_pred(self.bin_intervals[-1], y.max())
-                    tensorboard_logs[f"abs_error_{self.bin_intervals[-1]}_max"][
-                        str(c)
-                    ] = abs_error(self.bin_intervals[-1], y.max())
-
-        test_loss = torch.stack(list(tensorboard_logs["test_loss"].values())).mean()
-        tensorboard_logs["_test_loss"] = test_loss
+        test_loss, tensorboard_logs = self.inference_step(y_pre, y_hat_pre)
 
         return {
-            "test_loss": test_loss,
+            "mse": test_loss,
+            "log": tensorboard_logs,
+        }
+
+    def benchmark_step(self, batch):
+        """
+        Called inside the testing loop with the data from the testing dataloader \
+passed in as `batch`.
+
+        :param model: The chosen model
+        :type model: Model
+        :param batch: Batch of input and ground truth variables
+        :type batch: int
+        :return: Loss and logs
+        :rtype: dict
+        """
+        y_hat_pre, y_pre = batch
+
+        benchmark_loss, tensorboard_logs = self.inference_step(y_pre, y_hat_pre)
+
+        return {
+            "mse": benchmark_loss,
             "log": tensorboard_logs,
         }

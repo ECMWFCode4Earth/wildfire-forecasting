@@ -76,14 +76,11 @@ class Model(BaseModel):
             tensorboard_logs[f"test_loss_{n}"] = torch.stack(
                 [d[str(n)] for d in [x["log"]["test_loss"] for x in outputs if x]]
             ).mean()
-            tensorboard_logs[f"test_acc_{n}"] = torch.stack(
-                [
-                    d[str(n)]
-                    for d in [x["log"]["n_correct_pred_test"] for x in outputs if x]
-                ]
+            tensorboard_logs[f"acc_{n}"] = torch.stack(
+                [d[str(n)] for d in [x["log"]["acc_test"] for x in outputs if x]]
             ).mean()
-            tensorboard_logs[f"abs_error_{n}"] = torch.stack(
-                [d[str(n)] for d in [x["log"]["abs_error_test"] for x in outputs if x]]
+            tensorboard_logs[f"mae_{n}"] = torch.stack(
+                [d[str(n)] for d in [x["log"]["mae_test"] for x in outputs if x]]
             ).mean()
 
         return {

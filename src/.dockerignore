@@ -1,0 +1,8 @@
+logs
+**logs**
+__pycache__
+**__pycache__**
+**checkpoints**
+model/checkpoints
+.ipynb_checkpoints/
+.vscode
