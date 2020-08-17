@@ -21,8 +21,8 @@ You can build the docs using `cd docs && make html` and then read the docs at [`
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/esowc/wildfire-forecasting/master)
 
 - **Clone this repo**:
-<br> `git clone https://github.com/wikilimo/deepFWI.git`
-<br> `cd deepFWI`
+<br> `git clone https://github.com/esowc/wildfire-forecasting.git`
+<br> `cd wildfire-forecasting`
 
 * **Using conda**: To create the environment, run
 <br> `conda env create -f environment.yml`
@@ -37,7 +37,7 @@ You can build the docs using `cd docs && make html` and then read the docs at [`
 * **Examples**:<br>
   The [inference_2_1.ipynb](examples/inference_2_1.ipynb) and [inference_4_10.ipynb](examples/inference_4_10.ipynb) notebooks demonstrate the end-to-end procedure of loading data, creating model from saved checkpoint, and getting the predictions for 2 day input, 1 day output; and 4 day input, 10 day output experiments respectively.
 * **Testing data**:<br>
-  Ensure the access to fwi-forcings and fwi-reanalysis data.
+  Ensure the access to fwi-forcings and fwi-reanalysis data. Limited sample data is available at `gs://deepfwi-mini-sample` (Released for educational purposes only).
 * **Obtain pre-trained model**:<br>
   Place the model checkpoint file somewhere in your system and note the filepath.
   * Checkpoint file for 2 day input, 1 day FWI prediction is available [here](src/model/checkpoints/pre_trained/2_1/epoch_41_100.ckpt)
@@ -103,3 +103,9 @@ You can build the docs using `cd docs && make html` and then read the docs at [`
   * FRP data: [data/EDA/frp.ipynb](data/EDA/frp.ipynb) (*Resolution: 0.1 deg x 0.1 deg, 1 day*)
   
 * A walk-through of the codebase is in the [Code_Structure_Overview.md](Code_Structure_Overview.md).
+
+### Acknowledgements
+
+This project tackles [Challenge #26](https://github.com/esowc/challenges_2020/issues/10) from Stream 2: Machine Learning and Artificial Intelligence, as part of the [ECMWF Summer of Weather Code 2020](https://esowc.ecmwf.int/) Program.
+
+Team: Roshni Biswas, Anurag Saha Roy, Tejasvi S Tomar.
