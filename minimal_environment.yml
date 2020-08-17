@@ -30,4 +30,5 @@ dependencies:
     - gsutil==4.52
     - netcdf4==1.5.3
     - pytorch_lightning==0.9.0rc12
+    - sphinx-autoapi==1.4.0
     - wandb==0.8.36
