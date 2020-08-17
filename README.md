@@ -1,5 +1,8 @@
 # Forecasting Wildfire Danger Using Deep Learning
 
+[![Documentation Status](https://readthedocs.org/projects/wildfire-forecasting/badge/?version=latest)](https://wildfire-forecasting.readthedocs.io/en/latest/?badge=latest)  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/esowc/wildfire-forecasting/master)
+
+
 The current Global ECMWF Fire Forecasting (GEFF) is based on empirical models implemented in FORTRAN several decades back. To take advantage of developments in GIS & Machine Learning and increase forecasting coverage, these models need to be adopted to Deep Learning based prediction techniques. 
 
 The project intends to reproduce the Fire Forecasting capabilities of GEFF using Deep Learning and develop further improvements in accuracy, geography and time scale through inclusion of additional variables or optimisation of model architecture & hyperparameters. Finally, a preliminary fire spread prediction tool is proposed to allow monitoring activities.
@@ -14,11 +17,9 @@ This codebase (and this README) is a work-in-progress. We are constantly refacto
 
 For a deeper dive, read the instructions below or head straight to [`Code_Structure_Overview.md`](Code_Structure_Overview.md) and then explore your way around [`train.py`](src/train.py), [`test.py`](src/test.py), [`dataloader/`](src/dataloader/) and [`model/`](src/model/).
 
-You can build the docs using `cd docs && make html` and then read the docs at [`docs/build/html/`](docs/build/html/index.html). Live docs can also be viewed online on [Readthedocs](https://wildfire-forecasting.readthedocs.io/en/latest/).
+The work-in-progress documentation can be viewed online on [wildfire-forecasting.readthedocs.io](https://wildfire-forecasting.readthedocs.io/en/latest/).
 
 ## Getting Started:
-
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/esowc/wildfire-forecasting/master)
 
 - **Clone this repo**:
 <br> `git clone https://github.com/esowc/wildfire-forecasting.git`
@@ -103,6 +104,17 @@ You can build the docs using `cd docs && make html` and then read the docs at [`
   * FRP data: [data/EDA/frp.ipynb](data/EDA/frp.ipynb) (*Resolution: 0.1 deg x 0.1 deg, 1 day*)
   
 * A walk-through of the codebase is in the [Code_Structure_Overview.md](Code_Structure_Overview.md).
+
+## Documentation
+
+We use Sphinx for building our docs and host them on Readthedocs. The latest build of the docs can be accessed online [here](https://wildfire-forecasting.readthedocs.io/en/latest/). In order to build the docs from source, you will need `sphinx` and `sphinx-autoapi`. Follow the instructions below:
+
+```bash
+cd docs
+make html
+```
+
+Once the docs get built, you can access them inside [`docs/build/html/`](docs/build/html/index.html).
 
 ### Acknowledgements
 
