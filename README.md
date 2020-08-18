@@ -81,6 +81,7 @@ The work-in-progress documentation can be viewed online on [wildfire-forecasting
     -chronological_split False              Do chronological train-test split in the specified ratio [Bool/float]
     -model unet_tapered                     Model to use: unet, unet_downsampled, unet_snipped, unet_tapered, unet_interpolated [str]
     -out fwi_reanalysis                     Output data for training: fwi_forecast or fwi_reanalysis [str]
+    -smos_input False                       Use soil-moisture input data [Bool]
     -forecast-dir ${FORECAST_DIR}           Directory containing forecast data. Alternatively set $FORECAST_DIR [str]
     -forcings-dir ${FORCINGS_DIR}           Directory containing forcings data. Alternatively set $FORCINGS_DIR [str]
     -reanalysis-dir ${REANALYSIS_DIR}       Directory containing reanalysis data. Alternatively set $REANALYSIS_DIR [str]
