@@ -29,10 +29,10 @@ RUN chown $UID:$GID /usr/local/bin/entrypoint.sh && \
 USER $USER
 ENV MINICONDA_VERSION 4.8.3
 ENV CONDA_DIR $HOME/miniconda3
-RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-$MINICONDA_VERSION-Linux-x86_64.sh -O ~/miniconda.sh && \
-    chmod +x ~/miniconda.sh && \
-    ~/miniconda.sh -b -p $CONDA_DIR && \
-    rm ~/miniconda.sh
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-$MINICONDA_VERSION-Linux-x86_64.sh -O ~/miniconda.sh 
+RUN chmod +x ~/miniconda.sh
+RUN ~/miniconda.sh -b -p $CONDA_DIR
+RUN rm ~/miniconda.sh
 
 # make non-activate conda commands available
 ENV PATH=$CONDA_DIR/bin:$PATH
