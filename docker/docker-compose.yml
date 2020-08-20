@@ -10,12 +10,7 @@ services:
       context: ../
       dockerfile: docker/Dockerfile
     ports:
-      - "4242:4242"
-    volumes:
-      - ../data:/home/${USER}/app/data
-      - ../examples:/home/${USER}/app/examples
-      - ../docs:/home/${USER}/app/docs
-      - ../src:/home/${USER}/app/src
+      - "8888:8888"
     init: true
     stdin_open: true
     tty: true 

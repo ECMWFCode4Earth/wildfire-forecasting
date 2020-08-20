@@ -23,3 +23,7 @@ docs/build
 *.npy
 *.ipynb_checkpoints
 *.ckpt
+docker/aq
+docker/docker
+docker/ps
+docker/sudo

@@ -6,7 +6,7 @@ SHELL [ "/bin/bash", "--login", "-c" ]
 
 # install as root
 RUN apt-get update --fix-missing && \
-    apt-get install -qq -y wget bzip2 curl git gcc python3-dev && \
+    apt-get install -qq -y wget bzip2 curl git gcc python3-dev build-essential && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -26,7 +26,7 @@ RUN adduser --disabled-password \
     $USER
 
 # Copy required files for building environment
-COPY minimal_environment.yml /tmp/environment.yml
+COPY environment.yml /tmp/environment.yml
 RUN chown $UID:$GID /tmp/environment.yml 
 COPY entrypoint.sh /usr/local/bin/
 RUN chown $UID:$GID /usr/local/bin/entrypoint.sh && \
@@ -60,8 +60,25 @@ RUN conda update --name base --channel defaults conda && \
     conda env create --prefix $ENV_PREFIX --file /tmp/environment.yml --force && \
     conda clean --all --yes
 
+# copy necessary files
+COPY src $PROJECT_DIR/src
+COPY data $PROJECT_DIR/data
+COPY docs $PROJECT_DIR/docs
+COPY examples $PROJECT_DIR/examples
+COPY README.md $PROJECT_DIR/README.md
+COPY Code_Structure_Overview.md $PROJECT_DIR/Code_Structure_Overview.md
+
+#change permissions on files/directories to allow edits
+USER root
+RUN chown -R $UID:$GID $PROJECT_DIR/data && chmod -R 755 $PROJECT_DIR/data
+RUN chown -R $UID:$GID $PROJECT_DIR/docs && chmod -R 755 $PROJECT_DIR/docs
+RUN chown -R $UID:$GID $PROJECT_DIR/examples && chmod -R 755 $PROJECT_DIR/examples
+RUN chown -R $UID:$GID $PROJECT_DIR/src && chmod -R 755 $PROJECT_DIR/src
+USER $UID
+
 # activate conda environment at runtime
 ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
 
 # default command will launch JupyterLab server for development
-CMD ["jupyter", "notebook", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root"]
+CMD ["jupyter" "lab" "--generate-config"]
+CMD ["jupyter", "lab", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root", "--NotebookApp.token=''", "--NotebookApp.password=''"]  
