@@ -1,5 +1,5 @@
 ## Start from base ubuntu:18.04 or nvidia/cuda:10.2-runtime-ubuntu18.04
-FROM ubuntu:18.04
+FROM nvidia/cuda:10.2-runtime-ubuntu18.04
 
 # Make bash default
 SHELL [ "/bin/bash", "--login", "-c" ]
@@ -63,20 +63,20 @@ RUN conda update --name base --channel defaults conda && \
     conda clean --all --yes
 
 # copy necessary files from repo to $HOME/app/ in container
-COPY src $PROJECT_DIR/src
-COPY data $PROJECT_DIR/data
-COPY docs $PROJECT_DIR/docs
-COPY examples $PROJECT_DIR/examples
+# COPY src $PROJECT_DIR/src
+# COPY data $PROJECT_DIR/data
+# COPY docs $PROJECT_DIR/docs
+# COPY examples $PROJECT_DIR/examples
 COPY README.md $PROJECT_DIR/README.md
 COPY Code_Structure_Overview.md $PROJECT_DIR/Code_Structure_Overview.md
 
 #change permissions on files/directories to allow edits during training
-USER root
-RUN chown -R $UID:$GID $PROJECT_DIR/data && chmod -R 755 $PROJECT_DIR/data
-RUN chown -R $UID:$GID $PROJECT_DIR/docs && chmod -R 755 $PROJECT_DIR/docs
-RUN chown -R $UID:$GID $PROJECT_DIR/examples && chmod -R 755 $PROJECT_DIR/examples
-RUN chown -R $UID:$GID $PROJECT_DIR/src && chmod -R 755 $PROJECT_DIR/src
-USER $UID
+# USER root
+# RUN chown -R $UID:$GID $PROJECT_DIR/data && chmod -R 755 $PROJECT_DIR/data
+# RUN chown -R $UID:$GID $PROJECT_DIR/docs && chmod -R 755 $PROJECT_DIR/docs
+# RUN chown -R $UID:$GID $PROJECT_DIR/examples && chmod -R 755 $PROJECT_DIR/examples
+# RUN chown -R $UID:$GID $PROJECT_DIR/src && chmod -R 755 $PROJECT_DIR/src
+# USER $UID
 
 # use ENTRYPOINT to activate conda environment at runtime
 ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]

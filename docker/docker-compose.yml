@@ -1,7 +1,7 @@
 version: "3.7"
 
 services:
-  jupyterlab-server:
+  esowc-wildfire:
     build:
       args:
         - username=${USER}
@@ -11,6 +11,11 @@ services:
       dockerfile: docker/Dockerfile
     ports:
       - "8888:8888"
+    volumes:
+      - ../data:/home/${USER}/app/data
+      - ../examples:/home/${USER}/app/examples
+      - ../docs:/home/${USER}/app/docs
+      - ../src:/home/${USER}/app/src
     init: true
     stdin_open: true
     tty: true 
