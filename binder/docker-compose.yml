@@ -1,0 +1,16 @@
+version: "3.7"
+
+services:
+  jupyterlab-server:
+    build:
+      args:
+        - username=${USER}
+        - uid=${UID}
+        - gid=${GID}
+      context: ../
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8888:8888"
+    init: true
+    stdin_open: true
+    tty: true 
