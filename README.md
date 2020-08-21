@@ -140,7 +140,7 @@ You can now access the JupyterLab on `localhost:8080` with all the goodness of G
 
 * The [data/EDA/](data/EDA/) directory contains the Exploratory Data Analysis and Preprocessing required for each dataset demonstrated via Jupyter Notebooks.
   * Forcings: [data/EDA/EDA_forcings_mini_sample.ipynb](data/EDA/EDA_forcings_mini_sample.ipynb) (*Resolution: 0.07 deg x 0.07 deg, 10 days*)
-  * FWI-Reanalysis: [data/EDA/fwi_reanalysis.ipynb](data/EDA/fwi_reanalysis.ipynb) (*Resolution: 0.1 deg x 0.1 deg, 1 day*)
+  * FWI-Reanalysis: [data/EDA/EDA_reanalysis_mini_sample.ipynb](data/EDA/EDA_reanalysis_mini_sample.ipynb) (*Resolution: 0.1 deg x 0.1 deg, 1 day*)
   * FWI-Forecast: [data/EDA/EDA_forecast_mini_sample.ipynb](data/EDA/EDA_forecast_mini_sample.ipynb) (*Resolution: 0.1 deg x 0.1 deg, 10 days*)
   
   To-Fix - 
