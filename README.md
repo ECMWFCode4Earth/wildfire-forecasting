@@ -13,7 +13,7 @@ This codebase (and this README) is a work-in-progress. We are constantly refacto
 
 * Clone the repo and create a conda environment using `environment.yml` on Ubuntu 18.04 and 20.04 only.
 * Check the EDA notebooks titled [`EDA_XXX_mini_sample.ipynb`](data/EDA). We recommend `jupyterlab`.
-* The notebooks also include code to download mini-samples of the dataset (`~17GiB`).
+* The notebooks also include code to download mini-samples of the dataset (`~11GiB`).
 * Check the Inference notebook titled [`Inference_4_10.ipynb`](examples/Inference_4_10.ipynb).
 
 For a deeper dive, read the instructions below or head straight to [`Code_Structure_Overview.md`](Code_Structure_Overview.md) and then explore your way around [`train.py`](src/train.py), [`test.py`](src/test.py), [`dataloader/`](src/dataloader/) and [`model/`](src/model/).
