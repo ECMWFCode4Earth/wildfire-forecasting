@@ -23,6 +23,7 @@ docs/build
 !src/dataloader/mask/*.npy
 *.ipynb_checkpoints
 *.ckpt
+!src/model/checkpoints/pre_trained/2_1/*.ckpt
 */aq
 */docker
 */ps
