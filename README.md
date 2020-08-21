@@ -96,6 +96,12 @@ You can now access the JupyterLab on `localhost:8080` with all the goodness of G
   `python src/test.py -in-days=2 -out-days=1 -forcings-dir=${FORCINGS_DIR} -reanalysis-dir=${REANALYSIS_DIR} -checkpoint-file='path/to/checkpoint'`
 
 ## Implementation overview
+
+![](./docs/source/_static/unet_tapered.svg)
+We implement a modified U-Net style Deep Learning architecture using [PyTorch 1.6](https://pytorch.org/docs/stable/index.html). We use [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) for code organisation and reducing boilerplate. The mammoth size of the total original dataset (~1TB) means we use extensive GPU acceleration in the code using [NVIDIA CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit). For a GeForce RTX 2080 with 12GB memory and 40 vCPUs with 110 GB RAM, this translates to a 25x speedup over using only 8 vCPUs with 52GB RAM. 
+
+For reading geospatial datasets, we use [`xarray`](http://xarray.pydata.org/en/stable/quick-overview.html) and [`netcdf4`](https://unidata.github.io/netcdf4-python/netCDF4/index.html). The [`imbalanced-learn`](https://imbalanced-learn.readthedocs.io/en/stable/under_sampling.html) library is useful for Undersampling to tackle the high data skew. Code-linting and formatting is done using [`black`](https://black.readthedocs.io/en/stable/) and [`flake8`](https://flake8.pycqa.org/en/latest/).
+
 * The entry point for training is [src/train.py](src/train.py)
   * **Example Usage**: `python src/train.py [-h] [-in-days 4] [-out-days 1] [-forcings-dir ${FORCINGS_DIR}] [-reanalysis-dir ${REANALYSIS_DIR}]`
 
