@@ -37,6 +37,9 @@ conda activate wildfire-dl
 ```
 >The setup is tested on Ubuntu 18.04 and 20.04 only and will not work on any non-Linux systems. See [this](https://github.com/conda/conda/issues/7311) issue for further details.
 
+### Using Binder:
+While we have included support for launching the repository in [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/esowc/wildfire-forecasting/master), the limited memory offered by Binder means that you might end up with crashed/dead kernels while try to test the `Inference` or the `Forecast` notebooks. At this point, we don't have a workaround for this issue.
+
 ### Using docker:
 Make sure you have the latest docker engine (19.03) installed and docker set up to run in [rootless mode](https://docs.docker.com/engine/security/rootless/). The source code files from this repository are not copied into the docker image but are mounted on the container at the time of launch. The instructions below outline this process, first for CPU based usage and then for GPUs. 
 
@@ -63,7 +66,7 @@ docker-compose down
 # check available docker images
 docker image ls
 # launch container with gpu and mount volumes
-docker run -p 8080:8888 --rm --tty --name esowc-wildfire --volume $(pwd)/data:/home/$USER/app/data --volume $(pwd)/docs:/home/$USER/app/docs --volume $(pwd)/examples:/home/$USER/app/examples --volume $(pwd)/src:/home/$USER/app/src --gpus all --detach docker_esowc-wildfire:latest
+docker run -p 8080:8888 --rm --tty --name esowc-wildfire --volume $(pwd)/data:/home/$USER/app/data --volume $(pwd)/docs:/home/$USER/app/docs --volume $(pwd)/examples:/home/$USER/app/examples --volume $(pwd)/src:/home/$USER/app/src --gpus all --shm-size 10G --detach docker_esowc-wildfire:latest
 ```
 In the last command, replace `$USER` with the value you set to `USER` in the `.env` file in the **CPU** section above. However, there seems to be a lot going on with that last command above. To break it down, we publish a container that:
 * listens on host port 8080 - `[-p]`
@@ -72,6 +75,7 @@ In the last command, replace `$USER` with the value you set to `USER` in the `.e
 * is named esowc-wildfire - `[--name]`
 * has `data/`, `docs/`, `examples/` and `src/` from this repo in the host filesystem mounted on `/home/$USER/app/` - `[--volume]`
 * uses available GPUs - `[--gpus]`
+* Increases the Docker shared memory to 10GB to address [this](https://github.com/pytorch/pytorch/issues/2244#issuecomment-318864552) - `[--shm-size]`
 * detaches from current session and runs in background - `[--detach]`
 * uses the previously built docker image - `[docker_esowc-wildfire:latest]`
 
@@ -93,6 +97,8 @@ You can now access the JupyterLab on `localhost:8080` with all the goodness of G
 ## Implementation overview
 * The entry point for training is [src/train.py](src/train.py)
   * **Example Usage**: `python src/train.py [-h] [-in-days 4] [-out-days 1] [-forcings-dir ${FORCINGS_DIR}] [-reanalysis-dir ${REANALYSIS_DIR}]`
+
+  * The `gs://deepfwi-mini-sample` dataset demonstrated in the various EDA and Inference notebooks are not intended for use with `src/train.py`. The scripts will fail if used with those small datasets. If you intend to re-run the training, reach out to us for access to a bigger dataset necessary for the scripts.
 
 * The entry point for inference is [src/test.py](src/test.py)
   * **Example Usage**: `python src/test.py [-h] [-in-days 4] [-out-days 1] [-forcings-dir ${FORCINGS_DIR}] [-reanalysis-dir ${REANALYSIS_DIR}] [-checkpoint-file]`
