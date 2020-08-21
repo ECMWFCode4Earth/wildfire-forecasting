@@ -15,7 +15,7 @@
 
 ## Introduction
 
-The Global ECMWF Fire Forecasting (GEFF, implemented in Fortran 90) is based on empirical models conceptualised several decades back. Recent GIS & Machine Learning advances could, theoretically, be used to boost these models' performance or completely replace the current forecasting system. However thorough benchmarking is need to compare GEFF to Deep Learning based prediction techniques.
+The Global ECMWF Fire Forecasting (GEFF) system, implemented in Fortran 90, is based on empirical models conceptualised several decades back. Recent GIS & Machine Learning advances could, theoretically, be used to boost these models' performance or completely replace the current forecasting system. However thorough benchmarking is needed to compare GEFF to Deep Learning based prediction techniques.
 
 The project intends to reproduce the Fire Forecasting capabilities of GEFF using Deep Learning and develop further improvements in accuracy, geography and time scale through inclusion of additional variables or optimisation of model architecture & hyperparameters. Finally, a preliminary fire spread prediction tool is proposed to allow monitoring activities.
 
