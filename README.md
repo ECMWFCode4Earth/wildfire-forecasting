@@ -77,7 +77,7 @@ In the last command, replace `$USER` with the value you set to `USER` in the `.e
 
 You can now access the JupyterLab on `localhost:8080` with all the goodness of GPUs for training, testing and inference.
 
-##🔬 Running Inference
+## Running Inference
 * **Examples**:<br>
   The [Inference_2_1.ipynb](examples/Inference_2_1.ipynb) and [Inference_4_10.ipynb](examples/Inference_4_10.ipynb) notebooks demonstrate the end-to-end procedure of loading data, creating model from saved checkpoint, and getting the predictions for 2 day input, 1 day output; and 4 day input, 10 day output experiments respectively.
 * **Testing data**:<br>
@@ -90,7 +90,7 @@ You can now access the JupyterLab on `localhost:8080` with all the goodness of G
   * Set `$FORCINGS_DIR` and `$REANALYSIS_DIR` or pass the directory paths through the arguments.
   `python src/test.py -in-days=2 -out-days=1 -forcings-dir=${FORCINGS_DIR} -reanalysis-dir=${REANALYSIS_DIR} -checkpoint-file='path/to/checkpoint'`
 
-##🔧 Implementation overview
+## Implementation overview
 * The entry point for training is [src/train.py](src/train.py)
   * **Example Usage**: `python src/train.py [-h] [-in-days 4] [-out-days 1] [-forcings-dir ${FORCINGS_DIR}] [-reanalysis-dir ${REANALYSIS_DIR}]`
 
@@ -149,7 +149,7 @@ You can now access the JupyterLab on `localhost:8080` with all the goodness of G
   
 * A walk-through of the codebase is in the [Code_Structure_Overview.md](Code_Structure_Overview.md).
 
-##📚 Documentation
+## Documentation
 
 We use Sphinx for building our docs and host them on Readthedocs. The latest build of the docs can be accessed online [here](https://wildfire-forecasting.readthedocs.io/en/latest/). In order to build the docs from source, you will need `sphinx` and `sphinx-autoapi`. Follow the instructions below:
 
