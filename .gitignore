@@ -17,10 +17,10 @@
 logs
 .DS_Store
 **/dataloader/*.pkl
-**/dataloader/*.npy
 .DS_St
 docs/build
 *.npy
+!src/dataloader/mask/*.npy
 *.ipynb_checkpoints
 *.ckpt
 */aq
