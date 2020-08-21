@@ -17,7 +17,12 @@ This codebase (and this README) is a work-in-progress. We are constantly refacto
 * Check out the Inference notebook titled [`Inference_4_10.ipynb`](examples/Inference_4_10.ipynb).
 * The notebooks also include code to download mini-samples of the dataset (`~11GiB`).
 
-For a deeper dive, read the instructions below or head straight to [`Code_Structure_Overview.md`](Code_Structure_Overview.md) and then explore your way around [`train.py`](src/train.py), [`test.py`](src/test.py), [`dataloader/`](src/dataloader/) and [`model/`](src/model/).
+**Next:**
+
+* See [Getting Started](#getting-started) for how to set up your local environment for training or inference
+* For a detailed description of the project codebase, check out the [Code_Structure_Overview](Code_Structure_Overview.md)
+* Read the [Running Inference](#running-inference) section for testing pre-trained models on sample data.
+* See [Implementation Overview](#implementation-overview) for details on tools & frameworks and how to retrain the model. 
 
 The work-in-progress documentation can be viewed online on [wildfire-forecasting.readthedocs.io](https://wildfire-forecasting.readthedocs.io/en/latest/).
 
