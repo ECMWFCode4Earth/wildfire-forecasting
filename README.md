@@ -139,7 +139,7 @@ You can now access the JupyterLab on `localhost:8080` with all the goodness of G
   * The [src/model/base_model.py](src/model/base_model.py) script has the common implementation used by every model.
 
 * The [data/EDA/](data/EDA/) directory contains the Exploratory Data Analysis and Preprocessing required for each dataset demonstrated via Jupyter Notebooks.
-  * Forcings data: [data/EDA/fwi_forcings.ipynb](data/EDA/fwi_forcings.ipynb) (*Resolution: 0.07 deg x 0.07 deg, 10 days*)
+  * Forcings data: [data/EDA/EDA_forcings_mini_sample.ipynb](data/EDA/EDA_forcings_mini_sample.ipynb) (*Resolution: 0.07 deg x 0.07 deg, 10 days*)
   * Reanalysis data: [data/EDA/fwi_reanalysis.ipynb](data/EDA/fwi_reanalysis.ipynb) (*Resolution: 0.1 deg x 0.1 deg, 1 day*)
   * Forecast data: [data/EDA/fwi_forecast.ipynb](data/EDA/fwi_forecast.ipynb) (*Resolution: 0.1 deg x 0.1 deg, 10 days*)
   
