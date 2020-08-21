@@ -32,6 +32,8 @@ git clone https://github.com/esowc/wildfire-forecasting.git
 cd wildfire-forecasting
 ```
 
+Once you have cloned and navigated into the repository, you can set up a development environment using either `conda` or `docker`. Refer to the relevant instructions below and then skip to the next section on [Running Inference](#running-inference)
+
 ### Using conda: 
 To create the environment, run:
 ```bash
