@@ -13,9 +13,9 @@ This codebase (and this README) is a work-in-progress. We are constantly refacto
 
 * Clone & navigate into the repo and create a conda environment using `environment.yml` on Ubuntu 18.04 and 20.04 only.
 * All EDA and Inference notebooks must be run within this environment. Use `conda activate wildfire-dl`
-* Check the EDA notebooks titled [`EDA_XXX_mini_sample.ipynb`](data/EDA). We recommend `jupyterlab`.
+* Check out the EDA notebooks titled [`EDA_XXX_mini_sample.ipynb`](data/EDA). We recommend `jupyterlab`.
+* Check out the Inference notebook titled [`Inference_4_10.ipynb`](examples/Inference_4_10.ipynb).
 * The notebooks also include code to download mini-samples of the dataset (`~11GiB`).
-* Check the Inference notebook titled [`Inference_4_10.ipynb`](examples/Inference_4_10.ipynb).
 
 For a deeper dive, read the instructions below or head straight to [`Code_Structure_Overview.md`](Code_Structure_Overview.md) and then explore your way around [`train.py`](src/train.py), [`test.py`](src/test.py), [`dataloader/`](src/dataloader/) and [`model/`](src/model/).
 
@@ -38,8 +38,6 @@ conda activate wildfire-dl
 ```
 >The setup is tested on Ubuntu 18.04 and 20.04 only and will not work on any non-Linux systems. See [this](https://github.com/conda/conda/issues/7311) issue for further details.
 
-### Using Binder:
-While we have included support for launching the repository in [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/esowc/wildfire-forecasting/master), the limited memory offered by Binder means that you might end up with crashed/dead kernels while try to test the `Inference` or the `Forecast` notebooks. At this point, we don't have a workaround for this issue.
 
 ### Using Docker:
 Make sure you have the latest docker engine (19.03) installed and docker set up to run in [rootless mode](https://docs.docker.com/engine/security/rootless/). The source code files from this repository are not copied into the docker image but are mounted on the container at the time of launch. The instructions below outline this process, first for CPU based usage and then for GPUs. 
