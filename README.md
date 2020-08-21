@@ -3,11 +3,11 @@
 
 - [Introduction](#introduction)
 - [TL; DR](#tl--dr)
-- [Getting Started:](#getting-started-)
-  * [Using Binder:](#using-binder-)
-  * [Clone this repo:](#clone-this-repo-)
-  * [Using conda:](#using-conda-)
-  * [Using Docker:](#using-docker-)
+- [Getting Started](#getting-started)
+  * [Using Binder](#using-binder)
+  * [Clone this repo](#clone-this-repo)
+  * [Using conda](#using-conda)
+  * [Using Docker](#using-docker)
 - [Running Inference](#running-inference)
 - [Implementation overview](#implementation-overview)
 - [Documentation](#documentation)
@@ -38,12 +38,12 @@ This codebase (and this README) is a work-in-progress. We are constantly refacto
 
 The work-in-progress documentation can be viewed online on [wildfire-forecasting.readthedocs.io](https://wildfire-forecasting.readthedocs.io/en/latest/).
 
-## Getting Started:
+## Getting Started
 
-### Using Binder:
+### Using Binder
 While we have included support for launching the repository in [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/esowc/wildfire-forecasting/master), the limited memory offered by Binder means that you might end up with crashed/dead kernels while trying to test the `Inference` or the `Forecast` notebooks. At this point, we don't have a workaround for this issue.
 
-### Clone this repo:
+### Clone this repo
 ```bash
 git clone https://github.com/esowc/wildfire-forecasting.git
 cd wildfire-forecasting
@@ -51,7 +51,7 @@ cd wildfire-forecasting
 
 Once you have cloned and navigated into the repository, you can set up a development environment using either `conda` or `docker`. Refer to the relevant instructions below and then skip to the next section on [Running Inference](#running-inference)
 
-### Using conda: 
+### Using conda
 To create the environment, run:
 ```bash
 conda env create -f environment.yml
@@ -60,7 +60,7 @@ conda activate wildfire-dl
 ```
 >The setup is tested on Ubuntu 18.04 and 20.04 only and will not work on any non-Linux systems. See [this](https://github.com/conda/conda/issues/7311) issue for further details.
 
-### Using Docker:
+### Using Docker
 
 We include a `Dockerfile` & `docker-compose.yml` and provide detailed instructions for setting up your development environment using Docker for training on both CPUs and GPUs. Please head over to the [Docker README](docker/README.md) for more details.
 
