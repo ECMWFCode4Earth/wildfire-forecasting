@@ -6,11 +6,11 @@ services:
       args:
         - username=${USER}
         - uid=${UID}
-        - gid=${GID}
+        - gid=100
       context: ../
       dockerfile: docker/Dockerfile
     ports:
-      - "8888:8888"
+      - "8080:8888"
     volumes:
       - ../data:/home/${USER}/app/data
       - ../examples:/home/${USER}/app/examples
