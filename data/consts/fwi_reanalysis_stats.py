@@ -1,5 +1,4 @@
-# Statistics of FWI reanalysis calculated on 12 month of data demonstrated
-# in the fwi_reanalysis.ipynb notebook. Calculated without applying the mask
+# Statistics of FWI reanalysis calculated on 12 month of data
 REANALYSIS_FWI_MEAN = 15.292629
 REANALYSIS_FWI_MAD = 18.819166
 REANALYSIS_FWI_VAR = 621.65894

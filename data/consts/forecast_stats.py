@@ -1,5 +1,4 @@
-# Statistics of FWI forecast calculated on 6 month of data demonstrated
-# in the fwi_forecast.ipynb notebook. Calculated without applying the mask
+# Statistics of FWI forecast calculated on 6 month of data
 FORECAST_FWI_MEAN = 18.389227
 FORECAST_FWI_MAD = 20.80943
 FORECAST_FWI_VAR = 716.1736

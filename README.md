@@ -14,7 +14,7 @@ This codebase (and this README) is a work-in-progress. We are constantly refacto
 * Clone the repo and create a conda environment using `environment.yml` on Ubuntu 18.04 and 20.04 only.
 * Check the EDA notebooks titled [`EDA_XXX_mini_sample.ipynb`](data/EDA). We recommend `jupyterlab`.
 * The notebooks also include code to download mini-samples of the dataset (`~17GiB`).
-* Check the Inference notebook titled [`Sample_Inference_4_10.ipynb`](examples/Sample_Inference_4_10.ipynb).
+* Check the Inference notebook titled [`Inference_4_10.ipynb`](examples/Inference_4_10.ipynb).
 
 For a deeper dive, read the instructions below or head straight to [`Code_Structure_Overview.md`](Code_Structure_Overview.md) and then explore your way around [`train.py`](src/train.py), [`test.py`](src/test.py), [`dataloader/`](src/dataloader/) and [`model/`](src/model/).
 
@@ -79,7 +79,7 @@ You can now access the JupyterLab on `localhost:8080` with all the goodness of G
 
 ## Running Inference
 * **Examples**:<br>
-  The [inference_2_1.ipynb](examples/inference_2_1.ipynb) and [inference_4_10.ipynb](examples/inference_4_10.ipynb) notebooks demonstrate the end-to-end procedure of loading data, creating model from saved checkpoint, and getting the predictions for 2 day input, 1 day output; and 4 day input, 10 day output experiments respectively.
+  The [Inference_2_1.ipynb](examples/Inference_2_1.ipynb) and [Inference_4_10.ipynb](examples/Inference_4_10.ipynb) notebooks demonstrate the end-to-end procedure of loading data, creating model from saved checkpoint, and getting the predictions for 2 day input, 1 day output; and 4 day input, 10 day output experiments respectively.
 * **Testing data**:<br>
   Ensure the access to fwi-forcings and fwi-reanalysis data. Limited sample data is available at `gs://deepfwi-mini-sample` (Released for educational purposes only).
 * **Obtain pre-trained model**:<br>
@@ -139,9 +139,9 @@ You can now access the JupyterLab on `localhost:8080` with all the goodness of G
   * The [src/model/base_model.py](src/model/base_model.py) script has the common implementation used by every model.
 
 * The [data/EDA/](data/EDA/) directory contains the Exploratory Data Analysis and Preprocessing required for each dataset demonstrated via Jupyter Notebooks.
-  * Forcings data: [data/EDA/fwi_forcings.ipynb](data/EDA/fwi_forcings.ipynb) (*Resolution: 0.07 deg x 0.07 deg, 10 days*)
-  * Reanalysis data: [data/EDA/fwi_reanalysis.ipynb](data/EDA/fwi_reanalysis.ipynb) (*Resolution: 0.1 deg x 0.1 deg, 1 day*)
-  * Forecast data: [data/EDA/fwi_forecast.ipynb](data/EDA/fwi_forecast.ipynb) (*Resolution: 0.1 deg x 0.1 deg, 10 days*)
+  * Forcings: [data/EDA/EDA_forcings_mini_sample.ipynb](data/EDA/EDA_forcings_mini_sample.ipynb) (*Resolution: 0.07 deg x 0.07 deg, 10 days*)
+  * FWI-Reanalysis: [data/EDA/EDA_reanalysis_mini_sample.ipynb](data/EDA/EDA_reanalysis_mini_sample.ipynb) (*Resolution: 0.1 deg x 0.1 deg, 1 day*)
+  * FWI-Forecast: [data/EDA/EDA_forecast_mini_sample.ipynb](data/EDA/EDA_forecast_mini_sample.ipynb) (*Resolution: 0.1 deg x 0.1 deg, 10 days*)
   
   To-Fix - 
   * Soil moisture data: [data/EDA/soil_moisture.ipynb](data/EDA/soil_moisture.ipynb) (*Resolution: 600x1440, 3 days*)
