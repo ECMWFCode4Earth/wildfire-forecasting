@@ -9,7 +9,7 @@ The project intends to reproduce the Fire Forecasting capabilities of GEFF using
 
 ## TL; DR
 
-This codebase (and this README) is a work-in-progress. We are constantly refactoring and introducing breaking changes. Here's a quick few steps that *just work* to get going:
+This codebase (and this README) is a work-in-progress. We are constantly refactoring and introducing breaking changes. Here's a quick few pointers that *just work* to get going:
 
 * Clone & navigate into the repo and create a conda environment using `environment.yml` on Ubuntu 18.04 and 20.04 only.
 * All EDA and Inference notebooks must be run within this environment. Use `conda activate wildfire-dl`
@@ -22,6 +22,9 @@ For a deeper dive, read the instructions below or head straight to [`Code_Struct
 The work-in-progress documentation can be viewed online on [wildfire-forecasting.readthedocs.io](https://wildfire-forecasting.readthedocs.io/en/latest/).
 
 ## Getting Started:
+
+### Using Binder:
+While we have included support for launching the repository in [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/esowc/wildfire-forecasting/master), the limited memory offered by Binder means that you might end up with crashed/dead kernels while try to test the `Inference` or the `Forecast` notebooks. At this point, we don't have a workaround for this issue.
 
 ### Clone this repo:
 ```bash
@@ -37,7 +40,6 @@ conda clean -a
 conda activate wildfire-dl
 ```
 >The setup is tested on Ubuntu 18.04 and 20.04 only and will not work on any non-Linux systems. See [this](https://github.com/conda/conda/issues/7311) issue for further details.
-
 
 ### Using Docker:
 Make sure you have the latest docker engine (19.03) installed and docker set up to run in [rootless mode](https://docs.docker.com/engine/security/rootless/). The source code files from this repository are not copied into the docker image but are mounted on the container at the time of launch. The instructions below outline this process, first for CPU based usage and then for GPUs. 
