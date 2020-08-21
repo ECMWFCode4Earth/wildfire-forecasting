@@ -1,34 +1,57 @@
 # Forecasting Wildfire Danger Using Deep Learning
+[![Documentation Status](https://readthedocs.org/projects/wildfire-forecasting/badge/?version=latest)](https://wildfire-forecasting.readthedocs.io/en/latest/?badge=latest)  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/esowc/wildfire-forecasting/master) <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 
-[![Documentation Status](https://readthedocs.org/projects/wildfire-forecasting/badge/?version=latest)](https://wildfire-forecasting.readthedocs.io/en/latest/?badge=latest)  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/esowc/wildfire-forecasting/master)
+- [Introduction](#introduction)
+- [TL; DR](#tl--dr)
+- [Getting Started](#getting-started)
+  * [Using Binder](#using-binder)
+  * [Clone this repo](#clone-this-repo)
+  * [Using conda](#using-conda)
+  * [Using Docker](#using-docker)
+- [Running Inference](#running-inference)
+- [Implementation overview](#implementation-overview)
+- [Documentation](#documentation)
+- [Acknowledgements](#acknowledgements)
 
+## Introduction
 
-The current Global ECMWF Fire Forecasting (GEFF) is based on empirical models implemented in FORTRAN several decades back. To take advantage of developments in GIS & Machine Learning and increase forecasting coverage, these models need to be adopted to Deep Learning based prediction techniques. 
+The Global ECMWF Fire Forecasting (GEFF) system, implemented in Fortran 90, is based on empirical models conceptualised several decades back. Recent GIS & Machine Learning advances could, theoretically, be used to boost these models' performance or completely replace the current forecasting system. However thorough benchmarking is needed to compare GEFF to Deep Learning based prediction techniques.
 
 The project intends to reproduce the Fire Forecasting capabilities of GEFF using Deep Learning and develop further improvements in accuracy, geography and time scale through inclusion of additional variables or optimisation of model architecture & hyperparameters. Finally, a preliminary fire spread prediction tool is proposed to allow monitoring activities.
 
 ## TL; DR
 
-This codebase (and this README) is a work-in-progress. We are constantly refactoring and introducing breaking changes. Here's a quick few steps that *just work* to get going:
+This codebase (and this README) is a work-in-progress. We are constantly refactoring and introducing breaking changes. Here's a quick few pointers that *just work* to get going:
 
-* Clone the repo and create a conda environment using `environment.yml` on Ubuntu 18.04 and 20.04 only.
-* Check the EDA notebooks titled [`EDA_XXX_mini_sample.ipynb`](data/EDA). We recommend `jupyterlab`.
-* The notebooks also include code to download mini-samples of the dataset (`~17GiB`).
-* Check the Inference notebook titled [`Inference_4_10.ipynb`](examples/Inference_4_10.ipynb).
+* Clone & navigate into the repo and create a conda environment using `environment.yml` on Ubuntu 18.04 and 20.04 only.
+* All EDA and Inference notebooks must be run within this environment. Use `conda activate wildfire-dl`
+* Check out the EDA notebooks titled [`EDA_XXX_mini_sample.ipynb`](data/EDA). We recommend `jupyterlab`.
+* Check out the Inference notebook titled [`Inference_4_10.ipynb`](examples/Inference_4_10.ipynb).
+* The notebooks also include code to download mini-samples of the dataset (`~11GiB`).
 
-For a deeper dive, read the instructions below or head straight to [`Code_Structure_Overview.md`](Code_Structure_Overview.md) and then explore your way around [`train.py`](src/train.py), [`test.py`](src/test.py), [`dataloader/`](src/dataloader/) and [`model/`](src/model/).
+**Next:**
+
+* See [Getting Started](#getting-started) for how to set up your local environment for training or inference
+* For a detailed description of the project codebase, check out the [Code_Structure_Overview](Code_Structure_Overview.md)
+* Read the [Running Inference](#running-inference) section for testing pre-trained models on sample data.
+* See [Implementation Overview](#implementation-overview) for details on tools & frameworks and how to retrain the model. 
 
 The work-in-progress documentation can be viewed online on [wildfire-forecasting.readthedocs.io](https://wildfire-forecasting.readthedocs.io/en/latest/).
 
-## Getting Started:
+## Getting Started
 
-### Clone this repo:
+### Using Binder
+While we have included support for launching the repository in [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/esowc/wildfire-forecasting/master), the limited memory offered by Binder means that you might end up with crashed/dead kernels while trying to test the `Inference` or the `Forecast` notebooks. At this point, we don't have a workaround for this issue.
+
+### Clone this repo
 ```bash
 git clone https://github.com/esowc/wildfire-forecasting.git
 cd wildfire-forecasting
 ```
 
-### Using conda: 
+Once you have cloned and navigated into the repository, you can set up a development environment using either `conda` or `docker`. Refer to the relevant instructions below and then skip to the next section on [Running Inference](#running-inference)
+
+### Using conda
 To create the environment, run:
 ```bash
 conda env create -f environment.yml
@@ -37,45 +60,9 @@ conda activate wildfire-dl
 ```
 >The setup is tested on Ubuntu 18.04 and 20.04 only and will not work on any non-Linux systems. See [this](https://github.com/conda/conda/issues/7311) issue for further details.
 
-### Using docker:
-Make sure you have the latest docker engine (19.03) installed and docker set up to run in [rootless mode](https://docs.docker.com/engine/security/rootless/). The source code files from this repository are not copied into the docker image but are mounted on the container at the time of launch. The instructions below outline this process, first for CPU based usage and then for GPUs. 
+### Using Docker
 
-#### CPU
-To spin up a container for operation on CPUs only, we use [`docker-compose`](https://docs.docker.com/compose/install/). Update the file `.env` inside the `docker/` directory containing the current user details. On ubuntu you can find this `uid` by running `id`. On a system with the username `esowc` and uid `1001`, this `.env` file looks as below:
-```
-USER=esowc
-UID=1001
-```
-Read more about `docker-compose` environment variables [here](https://docs.docker.com/compose/environment-variables/#the-env-file). Creating a container with the same `UID` will allow us to read and edit the mounted volumes from inside the container. Once you have the `.env` file ready, you only need to run the following command from inside `docker/`:
-```bash
-docker-compose up --build
-```
-This command will build your image and launch a container that listens on port `8080`. It also mounts the `data/`, `docs/`, `examples/` and `src/` directories to the container into `/home/$USER/app/`. The container automatically starts  a `jupyterlab` server with authentication disabled. You can now access the containerised environment with all the repository code at `localhost:8080`. If you are SSH-ing into a remote system where you have the docker host and the container, just enable port forwarding during SSH using `ssh -L 8080:localhost:8080 username@hostname` and you should be able to access the JupyterLab server locally at `localhost:8080`.
-
-Note: The final docker image is big (6GB+) and takes time (all those `conda` dependencies) to build. 
-
-#### GPU
-Docker now has [native support for NVIDIA GPU](https://github.com/NVIDIA/nvidia-docker). To use GPUs with Docker, Make sure you have installed the [NVIDIA driver](https://github.com/NVIDIA/nvidia-docker/wiki/Frequently-Asked-Questions#how-do-i-install-the-nvidia-driver) and Docker 19.03 for your Linux distribution on the host machine. It is recommended that you follow the steps outlined in the above **CPU** section to ensure the image is correctly built with all the proper usernames, file system privileges and mounted volumes. Assuming you have the container running from above and you have tested that you can correctly read and write files (run the `src/train.py` script to check), follow the steps below from the **root of the repository**:
-
-```bash
-# shut down running container
-docker-compose down
-# check available docker images
-docker image ls
-# launch container with gpu and mount volumes
-docker run -p 8080:8888 --rm --tty --name esowc-wildfire --volume $(pwd)/data:/home/$USER/app/data --volume $(pwd)/docs:/home/$USER/app/docs --volume $(pwd)/examples:/home/$USER/app/examples --volume $(pwd)/src:/home/$USER/app/src --gpus all --detach docker_esowc-wildfire:latest
-```
-In the last command, replace `$USER` with the value you set to `USER` in the `.env` file in the **CPU** section above. However, there seems to be a lot going on with that last command above. To break it down, we publish a container that:
-* listens on host port 8080 - `[-p]`
-* is automatically removed when shut down - `[--rm]`
-* allocates a pseudo-TTY - `[--tty]`
-* is named esowc-wildfire - `[--name]`
-* has `data/`, `docs/`, `examples/` and `src/` from this repo in the host filesystem mounted on `/home/$USER/app/` - `[--volume]`
-* uses available GPUs - `[--gpus]`
-* detaches from current session and runs in background - `[--detach]`
-* uses the previously built docker image - `[docker_esowc-wildfire:latest]`
-
-You can now access the JupyterLab on `localhost:8080` with all the goodness of GPUs for training, testing and inference.
+We include a `Dockerfile` & `docker-compose.yml` and provide detailed instructions for setting up your development environment using Docker for training on both CPUs and GPUs. Please head over to the [Docker README](docker/README.md) for more details.
 
 ## Running Inference
 * **Examples**:<br>
@@ -91,8 +78,18 @@ You can now access the JupyterLab on `localhost:8080` with all the goodness of G
   `python src/test.py -in-days=2 -out-days=1 -forcings-dir=${FORCINGS_DIR} -reanalysis-dir=${REANALYSIS_DIR} -checkpoint-file='path/to/checkpoint'`
 
 ## Implementation overview
+
+![](./docs/source/_static/unet_tapered.svg)
+We implement a modified U-Net style Deep Learning architecture using [PyTorch 1.6](https://pytorch.org/docs/stable/index.html). We use [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) for code organisation and reducing boilerplate. The mammoth size of the total original dataset (~1TB) means we use extensive GPU acceleration in the code using [NVIDIA CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit). For a GeForce RTX 2080 with 12GB memory and 40 vCPUs with 110 GB RAM, this translates to a 25x speedup over using only 8 vCPUs with 52GB RAM. 
+
+For reading geospatial datasets, we use [`xarray`](http://xarray.pydata.org/en/stable/quick-overview.html) and [`netcdf4`](https://unidata.github.io/netcdf4-python/netCDF4/index.html). The [`imbalanced-learn`](https://imbalanced-learn.readthedocs.io/en/stable/under_sampling.html) library is useful for Undersampling to tackle the high data skew. Code-linting and formatting is done using [`black`](https://black.readthedocs.io/en/stable/) and [`flake8`](https://flake8.pycqa.org/en/latest/).
+
 * The entry point for training is [src/train.py](src/train.py)
   * **Example Usage**: `python src/train.py [-h] [-in-days 4] [-out-days 1] [-forcings-dir ${FORCINGS_DIR}] [-reanalysis-dir ${REANALYSIS_DIR}]`
+
+  * **Dataset**: We train our model on 1 year of global data. The `gs://deepfwi-mini-sample` dataset demonstrated in the various EDA and Inference notebooks are not intended for use with `src/train.py`. The scripts will fail if used with those small datasets. If you intend to re-run the training, reach out to us for access to a bigger dataset necessary for the scripts.
+
+  * **Logging**: We use [Weights & Biases](https://www.wandb.com/) for logging our training. When running the training script, you can either provide a `wandb API key` or choose to skip logging altogether. W&B logging is free and lets you monitor your training remotely. You can sign up for an account and then use `wandb login` from inside the environment to supply the key. 
 
 * The entry point for inference is [src/test.py](src/test.py)
   * **Example Usage**: `python src/test.py [-h] [-in-days 4] [-out-days 1] [-forcings-dir ${FORCINGS_DIR}] [-reanalysis-dir ${REANALYSIS_DIR}] [-checkpoint-file]`
@@ -143,9 +140,6 @@ You can now access the JupyterLab on `localhost:8080` with all the goodness of G
   * FWI-Reanalysis: [data/EDA/EDA_reanalysis_mini_sample.ipynb](data/EDA/EDA_reanalysis_mini_sample.ipynb) (*Resolution: 0.1 deg x 0.1 deg, 1 day*)
   * FWI-Forecast: [data/EDA/EDA_forecast_mini_sample.ipynb](data/EDA/EDA_forecast_mini_sample.ipynb) (*Resolution: 0.1 deg x 0.1 deg, 10 days*)
   
-  To-Fix - 
-  * Soil moisture data: [data/EDA/soil_moisture.ipynb](data/EDA/soil_moisture.ipynb) (*Resolution: 600x1440, 3 days*)
-  * FRP data: [data/EDA/frp.ipynb](data/EDA/frp.ipynb) (*Resolution: 0.1 deg x 0.1 deg, 1 day*)
   
 * A walk-through of the codebase is in the [Code_Structure_Overview.md](Code_Structure_Overview.md).
 
@@ -160,7 +154,7 @@ make html
 
 Once the docs get built, you can access them inside [`docs/build/html/`](docs/build/html/index.html).
 
-### Acknowledgements
+## Acknowledgements
 
 This project tackles [Challenge #26](https://github.com/esowc/challenges_2020/issues/10) from Stream 2: Machine Learning and Artificial Intelligence, as part of the [ECMWF Summer of Weather Code 2020](https://esowc.ecmwf.int/) Program.
 

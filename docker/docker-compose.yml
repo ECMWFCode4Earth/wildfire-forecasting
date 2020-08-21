@@ -8,6 +8,7 @@ services:
         - uid=${UID}
         - gid=100
       context: ../
+      shm_size: '10gb'
       dockerfile: docker/Dockerfile
     ports:
       - "8080:8888"
