@@ -11,7 +11,8 @@ The project intends to reproduce the Fire Forecasting capabilities of GEFF using
 
 This codebase (and this README) is a work-in-progress. We are constantly refactoring and introducing breaking changes. Here's a quick few steps that *just work* to get going:
 
-* Clone the repo and create a conda environment using `environment.yml` on Ubuntu 18.04 and 20.04 only.
+* Clone & navigate into the repo and create a conda environment using `environment.yml` on Ubuntu 18.04 and 20.04 only.
+* All EDA and Inference notebooks must be run within this environment. Use `conda activate wildfire-dl`
 * Check the EDA notebooks titled [`EDA_XXX_mini_sample.ipynb`](data/EDA). We recommend `jupyterlab`.
 * The notebooks also include code to download mini-samples of the dataset (`~11GiB`).
 * Check the Inference notebook titled [`Inference_4_10.ipynb`](examples/Inference_4_10.ipynb).
@@ -40,7 +41,7 @@ conda activate wildfire-dl
 ### Using Binder:
 While we have included support for launching the repository in [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/esowc/wildfire-forecasting/master), the limited memory offered by Binder means that you might end up with crashed/dead kernels while try to test the `Inference` or the `Forecast` notebooks. At this point, we don't have a workaround for this issue.
 
-### Using docker:
+### Using Docker:
 Make sure you have the latest docker engine (19.03) installed and docker set up to run in [rootless mode](https://docs.docker.com/engine/security/rootless/). The source code files from this repository are not copied into the docker image but are mounted on the container at the time of launch. The instructions below outline this process, first for CPU based usage and then for GPUs. 
 
 #### CPU
@@ -98,9 +99,9 @@ You can now access the JupyterLab on `localhost:8080` with all the goodness of G
 * The entry point for training is [src/train.py](src/train.py)
   * **Example Usage**: `python src/train.py [-h] [-in-days 4] [-out-days 1] [-forcings-dir ${FORCINGS_DIR}] [-reanalysis-dir ${REANALYSIS_DIR}]`
 
-  * The `gs://deepfwi-mini-sample` dataset demonstrated in the various EDA and Inference notebooks are not intended for use with `src/train.py`. The scripts will fail if used with those small datasets. If you intend to re-run the training, reach out to us for access to a bigger dataset necessary for the scripts.
+  * **Dataset**: The `gs://deepfwi-mini-sample` dataset demonstrated in the various EDA and Inference notebooks are not intended for use with `src/train.py`. The scripts will fail if used with those small datasets. If you intend to re-run the training, reach out to us for access to a bigger dataset necessary for the scripts.
 
-  * We use [Weights & Biases](https://www.wandb.com/) for logging our training. When running the training script, you can either provide a `wandb API key` or choose to skip logging altogether. W&B logging is free and lets you monitor your training remotely. You can sign up for an account and then use `wandb login` from inside the environment to supply the key. 
+  * **Logging**: We use [Weights & Biases](https://www.wandb.com/) for logging our training. When running the training script, you can either provide a `wandb API key` or choose to skip logging altogether. W&B logging is free and lets you monitor your training remotely. You can sign up for an account and then use `wandb login` from inside the environment to supply the key. 
 
 * The entry point for inference is [src/test.py](src/test.py)
   * **Example Usage**: `python src/test.py [-h] [-in-days 4] [-out-days 1] [-forcings-dir ${FORCINGS_DIR}] [-reanalysis-dir ${REANALYSIS_DIR}] [-checkpoint-file]`
