@@ -305,8 +305,8 @@ and the label tensors.
             )
 
         pre_loss = (y_hat - y) ** 2
-        if "loss_factor" in locals():
-            pre_loss *= loss_factor
+        # if "loss_factor" in locals():
+        #     pre_loss *= loss_factor
         loss = pre_loss.mean()
         assert loss == loss
 
