@@ -22,7 +22,7 @@ The project intends to reproduce the Fire Forecasting capabilities of GEFF using
 
 ## TL; DR
 
-This codebase (and this README) is a work-in-progress. We are constantly refactoring and introducing breaking changes. Here's a quick few pointers that *just work* to get going:
+This codebase (and this README) is a work-in-progress. The `master` is a stable release and we aim to address issues and introduce enhancements on a rolling basis. If you encounter a bug, please [file an issue](https://github.com/esowc/wildfire-forecasting/issues/new). Here are a quick few pointers that *just work* to get you going with the project:
 
 * Clone & navigate into the repo and create a conda environment using `environment.yml` on Ubuntu 18.04 and 20.04 only.
 * All EDA and Inference notebooks must be run within this environment. Use `conda activate wildfire-dl`
