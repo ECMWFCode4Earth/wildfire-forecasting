@@ -1,4 +1,5 @@
 # Forecasting Wildfire Danger Using Deep Learning
+
 [![Documentation Status](https://readthedocs.org/projects/wildfire-forecasting/badge/?version=latest)](https://wildfire-forecasting.readthedocs.io/en/latest/?badge=latest)  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/esowc/wildfire-forecasting/master) <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 
 - [Introduction](#introduction)
@@ -27,7 +28,7 @@ This codebase (and this README) is a work-in-progress. We are constantly refacto
 * All EDA and Inference notebooks must be run within this environment. Use `conda activate wildfire-dl`
 * Check out the EDA notebooks titled [`EDA_XXX_mini_sample.ipynb`](data/EDA). We recommend `jupyterlab`.
 * Check out the Inference notebook titled [`Inference_4_10.ipynb`](examples/Inference_4_10.ipynb).
-* The notebooks also include code to download mini-samples of the dataset (`~11GiB`).
+* The notebooks also include code to download mini-samples of the dataset (`~1.5GiB`).
 
 **Next:**
 
@@ -41,9 +42,11 @@ The work-in-progress documentation can be viewed online on [wildfire-forecasting
 ## Getting Started
 
 ### Using Binder
+
 While we have included support for launching the repository in [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/esowc/wildfire-forecasting/master), the limited memory offered by Binder means that you might end up with crashed/dead kernels while trying to test the `Inference` or the `Forecast` notebooks. At this point, we don't have a workaround for this issue.
 
 ### Clone this repo
+
 ```bash
 git clone https://github.com/esowc/wildfire-forecasting.git
 cd wildfire-forecasting
@@ -52,12 +55,15 @@ cd wildfire-forecasting
 Once you have cloned and navigated into the repository, you can set up a development environment using either `conda` or `docker`. Refer to the relevant instructions below and then skip to the next section on [Running Inference](#running-inference)
 
 ### Using conda
+
 To create the environment, run:
+
 ```bash
 conda env create -f environment.yml
 conda clean -a
 conda activate wildfire-dl
 ```
+
 >The setup is tested on Ubuntu 18.04 and 20.04 only and will not work on any non-Linux systems. See [this](https://github.com/conda/conda/issues/7311) issue for further details.
 
 ### Using Docker
@@ -65,6 +71,7 @@ conda activate wildfire-dl
 We include a `Dockerfile` & `docker-compose.yml` and provide detailed instructions for setting up your development environment using Docker for training on both CPUs and GPUs. Please head over to the [Docker README](docker/README.md) for more details.
 
 ## Running Inference
+
 * **Examples**:<br>
   The [Inference_2_1.ipynb](examples/Inference_2_1.ipynb) and [Inference_4_10.ipynb](examples/Inference_4_10.ipynb) notebooks demonstrate the end-to-end procedure of loading data, creating model from saved checkpoint, and getting the predictions for 2 day input, 1 day output; and 4 day input, 10 day output experiments respectively.
 * **Testing data**:<br>
@@ -79,7 +86,7 @@ We include a `Dockerfile` & `docker-compose.yml` and provide detailed instructio
 
 ## Implementation overview
 
-![](./docs/source/_static/unet_tapered.svg)
+![deep-learning-network-architecture](./docs/source/_static/unet_tapered.svg)
 We implement a modified U-Net style Deep Learning architecture using [PyTorch 1.6](https://pytorch.org/docs/stable/index.html). We use [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) for code organisation and reducing boilerplate. The mammoth size of the total original dataset (~1TB) means we use extensive GPU acceleration in the code using [NVIDIA CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit). For a GeForce RTX 2080 with 12GB memory and 40 vCPUs with 110 GB RAM, this translates to a 25x speedup over using only 8 vCPUs with 52GB RAM. 
 
 For reading geospatial datasets, we use [`xarray`](http://xarray.pydata.org/en/stable/quick-overview.html) and [`netcdf4`](https://unidata.github.io/netcdf4-python/netCDF4/index.html). The [`imbalanced-learn`](https://imbalanced-learn.readthedocs.io/en/stable/under_sampling.html) library is useful for Undersampling to tackle the high data skew. Code-linting and formatting is done using [`black`](https://black.readthedocs.io/en/stable/) and [`flake8`](https://flake8.pycqa.org/en/latest/).
@@ -95,6 +102,7 @@ For reading geospatial datasets, we use [`xarray`](http://xarray.pydata.org/en/s
   * **Example Usage**: `python src/test.py [-h] [-in-days 4] [-out-days 1] [-forcings-dir ${FORCINGS_DIR}] [-reanalysis-dir ${REANALYSIS_DIR}] [-checkpoint-file]`
 
 * **Configuration Details**:
+
 <br> Optional arguments (default values indicated below):
 
     `  -h, --help show this help message and exit`
