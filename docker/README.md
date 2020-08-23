@@ -38,3 +38,6 @@ In the last command, replace `$USER` with the value you set to `USER` in the `.e
 * uses the previously built docker image - `[docker_esowc-wildfire:latest]`
 
 You can now access the JupyterLab on `localhost:8080` with all the goodness of GPUs for training, testing and inference.
+
+**Note**: If you run into issues with shared memory while performing inference or training, use the `--shm-size` flag in `docker run` or `shm_size` argument in `docker-compose` to increase the shared memory allocated to Docker.
+
