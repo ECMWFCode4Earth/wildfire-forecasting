@@ -8,8 +8,9 @@ services:
         - uid=${UID}
         - gid=${GID}
       context: ../
-      shm_size: '10gb'
+      shm_size: '2gb'
       dockerfile: docker/Dockerfile
+    shm_size: '2gb' #this is the maximum memory provided by mybinder
     ports:
       - "8888:8888"
     init: true
