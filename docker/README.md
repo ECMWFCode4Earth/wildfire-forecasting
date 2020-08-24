@@ -39,5 +39,5 @@ In the last command, replace `$USER` with the value you set to `USER` in the `.e
 
 You can now access the JupyterLab on `localhost:8080` with all the goodness of GPUs for training, testing and inference.
 
-**Note**: If you run into issues with shared memory while performing inference or training, use the `--shm-size` flag in `docker run` or the run time `shm_size` argument in `docker-compose` to increase the shared memory allocated to Docker.
+**Note**: If you run into issues with shared memory while performing inference or training, use the `--shm-size` flag in `docker run` or the run time `shm_size` argument in `docker-compose` to increase the shared memory allocated to Docker. You can also set `--ipc=host` to alleviate any shared memory issues in PyTorch worker pids.
 
