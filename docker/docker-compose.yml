@@ -8,8 +8,9 @@ services:
         - uid=${UID}
         - gid=100
       context: ../
-      shm_size: '10gb'
+      shm_size: '4gb' #shared memory for build
       dockerfile: docker/Dockerfile
+    shm_size: '10gb' #shared memory for run
     ports:
       - "8080:8888"
     volumes:
