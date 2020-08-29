@@ -35,7 +35,7 @@ This codebase (and this README) is a work-in-progress. The `master` is a stable 
 * See [Getting Started](#getting-started) for how to set up your local environment for training or inference
 * For a detailed description of the project codebase, check out the [Code_Structure_Overview](Code_Structure_Overview.md)
 * Read the [Running Inference](#running-inference) section for testing pre-trained models on sample data.
-* See [Implementation Overview](#implementation-overview) for details on tools & frameworks and how to retrain the model. 
+* See [Implementation Overview](#implementation-overview) for details on tools & frameworks and how to retrain the model.
 
 The work-in-progress documentation can be viewed online on [wildfire-forecasting.readthedocs.io](https://wildfire-forecasting.readthedocs.io/en/latest/).
 
@@ -64,7 +64,7 @@ conda clean -a
 conda activate wildfire-dl
 ```
 
->The setup is tested on Ubuntu 18.04 and 20.04 only and will not work on any non-Linux systems. See [this](https://github.com/conda/conda/issues/7311) issue for further details.
+>The setup is tested on Ubuntu 18.04, 20.04 and Windows 10 only. On systems with CUDA supported GPU and CUDA drivers set up, the conda environment and the code ensure that GPUs are used by default for training and inference. If there isn't sufficient GPU memory, this will typically lead to Out of Memory Runtime Errors. As a rule of thumb, around 4 GiB GPU memory is needed for inference and around 12 GiB for training.
 
 ### Using Docker
 
@@ -87,7 +87,7 @@ We include a `Dockerfile` & `docker-compose.yml` and provide detailed instructio
 ## Implementation overview
 
 ![deep-learning-network-architecture](./docs/source/_static/unet_tapered.svg)
-We implement a modified U-Net style Deep Learning architecture using [PyTorch 1.6](https://pytorch.org/docs/stable/index.html). We use [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) for code organisation and reducing boilerplate. The mammoth size of the total original dataset (~1TB) means we use extensive GPU acceleration in the code using [NVIDIA CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit). For a GeForce RTX 2080 with 12GB memory and 40 vCPUs with 110 GB RAM, this translates to a 25x speedup over using only 8 vCPUs with 52GB RAM. 
+We implement a modified U-Net style Deep Learning architecture using [PyTorch 1.6](https://pytorch.org/docs/stable/index.html). We use [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) for code organisation and reducing boilerplate. The mammoth size of the total original dataset (~1TB) means we use extensive GPU acceleration in the code using [NVIDIA CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit). For a GeForce RTX 2080 with 12GB memory and 40 vCPUs with 110 GB RAM, this translates to a 25x speedup over using only 8 vCPUs with 52GB RAM.
 
 For reading geospatial datasets, we use [`xarray`](http://xarray.pydata.org/en/stable/quick-overview.html) and [`netcdf4`](https://unidata.github.io/netcdf4-python/netCDF4/index.html). The [`imbalanced-learn`](https://imbalanced-learn.readthedocs.io/en/stable/under_sampling.html) library is useful for Undersampling to tackle the high data skew. Code-linting and formatting is done using [`black`](https://black.readthedocs.io/en/stable/) and [`flake8`](https://flake8.pycqa.org/en/latest/).
 
@@ -96,7 +96,7 @@ For reading geospatial datasets, we use [`xarray`](http://xarray.pydata.org/en/s
 
   * **Dataset**: We train our model on 1 year of global data. The `gs://deepfwi-mini-sample` dataset demonstrated in the various EDA and Inference notebooks are not intended for use with `src/train.py`. The scripts will fail if used with those small datasets. If you intend to re-run the training, reach out to us for access to a bigger dataset necessary for the scripts.
 
-  * **Logging**: We use [Weights & Biases](https://www.wandb.com/) for logging our training. When running the training script, you can either provide a `wandb API key` or choose to skip logging altogether. W&B logging is free and lets you monitor your training remotely. You can sign up for an account and then use `wandb login` from inside the environment to supply the key. 
+  * **Logging**: We use [Weights & Biases](https://www.wandb.com/) for logging our training. When running the training script, you can either provide a `wandb API key` or choose to skip logging altogether. W&B logging is free and lets you monitor your training remotely. You can sign up for an account and then use `wandb login` from inside the environment to supply the key.
 
 * The entry point for inference is [src/test.py](src/test.py)
   * **Example Usage**: `python src/test.py [-in-days 4] [-out-days 1] [-forcings-dir ${FORCINGS_DIR}] [-reanalysis-dir ${REANALYSIS_DIR}] [-checkpoint-file]`
@@ -147,8 +147,8 @@ For reading geospatial datasets, we use [`xarray`](http://xarray.pydata.org/en/s
   * Forcings: [data/EDA/EDA_forcings_mini_sample.ipynb](data/EDA/EDA_forcings_mini_sample.ipynb) (*Resolution: 0.07 deg x 0.07 deg, 10 days*)
   * FWI-Reanalysis: [data/EDA/EDA_reanalysis_mini_sample.ipynb](data/EDA/EDA_reanalysis_mini_sample.ipynb) (*Resolution: 0.1 deg x 0.1 deg, 1 day*)
   * FWI-Forecast: [data/EDA/EDA_forecast_mini_sample.ipynb](data/EDA/EDA_forecast_mini_sample.ipynb) (*Resolution: 0.1 deg x 0.1 deg, 10 days*)
-  
-  
+
+
 * A walk-through of the codebase is in the [Code_Structure_Overview.md](Code_Structure_Overview.md).
 
 ## Documentation
