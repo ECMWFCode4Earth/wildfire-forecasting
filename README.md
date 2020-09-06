@@ -76,12 +76,12 @@ We include a `Dockerfile` & `docker-compose.yml` and provide detailed instructio
   The [Inference_2_1.ipynb](examples/Inference_2_1.ipynb) and [Inference_4_10.ipynb](examples/Inference_4_10.ipynb) notebooks demonstrate the end-to-end procedure of loading data, creating model from saved checkpoint, and getting the predictions for 2 day input, 1 day output; and 4 day input, 10 day output experiments respectively.
 * **Testing data**:<br>
   Ensure the access to fwi-forcings and fwi-reanalysis data. Limited sample data is available at `gs://deepfwi-mini-sample` (Released for educational purposes only).
-* **Obtain pre-trained model**:<br>
-  Place the model checkpoint file somewhere in your system and note the filepath.
-  * The latest checkpoint file for 2 day input, 1 day FWI prediction is available [here](src/model/checkpoints/pre_trained/2_1/epoch_91_100.ckpt)
-  * The latest checkpoint file for 4 day input, 10 day FWI prediction is available [here](src/model/checkpoints/pre_trained/4_10/epoch_83_100.ckpt)
+* **Pre-trained model**:<br>
+  Pre-trained models are stored in [this](src/model/checkpoints/pre_trained) directory. Set the `$CHECKPOINT_FILE ` or pass the directory path through the argument.
 * **Run the inference script**:<br>
-  * Set `$FORCINGS_DIR` and `$REANALYSIS_DIR` or pass the directory paths through the arguments.
+  Set `$FORCINGS_DIR` and `$REANALYSIS_DIR` or pass the directory paths through the arguments.
+
+  * Example usage:
   `python src/test.py -in-days=2 -out-days=1 -forcings-dir=${FORCINGS_DIR} -reanalysis-dir=${REANALYSIS_DIR} -checkpoint-file='path/to/checkpoint'`
 
 ## Implementation overview
