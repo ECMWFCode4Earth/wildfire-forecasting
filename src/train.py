@@ -264,18 +264,6 @@ def set_hparams(hparams):
         )
         if hparams.boxcox and not (type(hparams.boxcox) == type(bool)):
             hparams.boxcox = BOX_COX_LAMBDA
-    elif hparams.out == "fwi_forecast":
-        from data.consts.forecast_stats import (
-            FORECAST_FWI_MAD,
-            FORECAST_FWI_MEAN,
-            FORECAST_FWI_VAR,
-        )
-
-        hparams.out_mean, hparams.out_mad, hparams.out_var = (
-            FORECAST_FWI_MEAN,
-            FORECAST_FWI_MAD,
-            FORECAST_FWI_VAR,
-        )
 
     if hparams.cb_loss and hparams.out == "fwi_reanalysis":
         from data.consts.reanalysis_freq import bin_centers, freq
