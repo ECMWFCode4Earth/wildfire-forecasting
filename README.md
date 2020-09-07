@@ -127,7 +127,7 @@ For reading geospatial datasets, we use [`xarray`](http://xarray.pydata.org/en/s
     -cb_loss False                          Use Class-Balanced loss with the supplied beta parameter [Bool/float]
     -chronological_split False              Do chronological train-test split in the specified ratio [Bool/float]
     -model unet_tapered                     Model to use: unet, unet_downsampled, unet_snipped, unet_tapered, unet_interpolated [str]
-    -out fwi_reanalysis                     Output data for training: fwi_forecast or fwi_reanalysis [str]
+    -out fwi_reanalysis                     Output data for training: gfas_frp or fwi_reanalysis [str]
     -smos_input False                       Use soil-moisture input data [Bool]
     -forecast-dir ${FORECAST_DIR}           Directory containing forecast data. Alternatively set $FORECAST_DIR [str]
     -forcings-dir ${FORCINGS_DIR}           Directory containing forcings data. Alternatively set $FORCINGS_DIR [str]
