@@ -123,7 +123,7 @@ For reading geospatial datasets, we use [`xarray`](http://xarray.pydata.org/en/s
     -binned "0,5.2,11.2,21.3,38.0,50"       Show the extended metrics for supplied comma separated binned FWI value range [Bool/list]
     -undersample False                      Undersample the datapoints having smaller than specified FWI (e.g. -undersample=10) [Bool/float]
     -round-to-zero False                    Round off the target values below the specified threshold to zero [Bool/float]
-    -date_range False                       Filter the data with specified date range. E.g. 2019-04-01,2019-05-01 [Bool/float]
+    -date-range 2019-04-01,2019-05-01       Limit prediction to a smaller subset of dates than available in the data directories [Bool/float]
     -cb_loss False                          Use Class-Balanced loss with the supplied beta parameter [Bool/float]
     -chronological_split False              Do chronological train-test split in the specified ratio [Bool/float]
     -model unet_tapered                     Model to use: unet, unet_downsampled, unet_snipped, unet_tapered, unet_interpolated [str]
