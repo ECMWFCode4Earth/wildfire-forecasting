@@ -408,7 +408,8 @@ on second call determined by the `force` parameter.
                 str(self.data.min_date + np.timedelta64(i, "D"))
                 for i in self.test_data.indices
             ]
-            log.info(test_set_dates)
+            log.info(f"No. of days in Test Set:  {len(test_set_dates)}")
+            log.info(f"Test Set Dates:           {test_set_dates}")
 
             # Set flag to avoid resource intensive re-preparation during next call
             self.data_prepared = True

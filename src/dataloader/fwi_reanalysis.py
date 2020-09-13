@@ -181,4 +181,4 @@ to defaults to None
                     time=np.unique(smos_input["time"], return_index=True)[1]
                 ).load()
 
-        log.info(f"Start date: {min(self.dates)}\nEnd date: {max(self.dates)}")
+        log.info(f"\nTest Set Range:           {min(self.dates)} to {max(self.dates)}")
