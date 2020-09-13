@@ -142,6 +142,7 @@ For reading geospatial datasets, we use [`xarray`](http://xarray.pydata.org/en/s
   * The [src/dataloader/](src/dataloader) directory contains the implementation specific to the training data.
   * The [src/model/](src/model) directory contains the model implementation.
   * The [src/model/base_model.py](src/model/base_model.py) script has the common implementation used by every model.
+  * The [src/config/](src/config) directory stores the config files generated via training.
 
 * The [data/EDA/](data/EDA/) directory contains the Exploratory Data Analysis and Preprocessing required for each dataset demonstrated via Jupyter Notebooks.
   * Forcings: [data/EDA/EDA_forcings_mini_sample.ipynb](data/EDA/EDA_forcings_mini_sample.ipynb) (*Resolution: 0.07 deg x 0.07 deg, 10 days*)
