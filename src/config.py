@@ -174,6 +174,12 @@ def get_hparams(
 
 
 def create_config():
+    """
+    Generates config file in yaml format from parsed arguments and saves to src/config/ dir.
+
+    :return: hparams in Namespace
+    :rtype: Namespace
+    """
     parsed_args = plac.call(get_hparams, eager=False)
 
     # Converting dictionary to namespace
