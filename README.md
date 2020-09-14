@@ -35,7 +35,7 @@ This codebase (and this README) is a work-in-progress. The `master` is a stable 
 * See [Getting Started](#getting-started) for how to set up your local environment for training or inference
 * For a detailed description of the project codebase, check out the [Code_Structure_Overview](Code_Structure_Overview.md)
 * Read the [Running Inference](#running-inference) section for testing pre-trained models on sample data.
-* See [Implementation Overview](#implementation-overview) for details on tools & frameworks and how to retrain the model. 
+* See [Implementation Overview](#implementation-overview) for details on tools & frameworks and how to retrain the model.
 
 The work-in-progress documentation can be viewed online on [wildfire-forecasting.readthedocs.io](https://wildfire-forecasting.readthedocs.io/en/latest/).
 
@@ -64,7 +64,7 @@ conda clean -a
 conda activate wildfire-dl
 ```
 
->The setup is tested on Ubuntu 18.04 and 20.04 only and will not work on any non-Linux systems. See [this](https://github.com/conda/conda/issues/7311) issue for further details.
+>The setup is tested on Ubuntu 18.04, 20.04 and Windows 10 only. On systems with CUDA supported GPU and CUDA drivers set up, the conda environment and the code ensure that GPUs are used by default for training and inference. If there isn't sufficient GPU memory, this will typically lead to Out of Memory Runtime Errors. As a rule of thumb, around 4 GiB GPU memory is needed for inference and around 12 GiB for training.
 
 ### Using Docker
 
@@ -76,18 +76,18 @@ We include a `Dockerfile` & `docker-compose.yml` and provide detailed instructio
   The [Inference_2_1.ipynb](examples/Inference_2_1.ipynb) and [Inference_4_10.ipynb](examples/Inference_4_10.ipynb) notebooks demonstrate the end-to-end procedure of loading data, creating model from saved checkpoint, and getting the predictions for 2 day input, 1 day output; and 4 day input, 10 day output experiments respectively.
 * **Testing data**:<br>
   Ensure the access to fwi-forcings and fwi-reanalysis data. Limited sample data is available at `gs://deepfwi-mini-sample` (Released for educational purposes only).
-* **Obtain pre-trained model**:<br>
-  Place the model checkpoint file somewhere in your system and note the filepath.
-  * The latest checkpoint file for 2 day input, 1 day FWI prediction is available [here](src/model/checkpoints/pre_trained/2_1/epoch_91_100.ckpt)
-  * The latest checkpoint file for 4 day input, 10 day FWI prediction is available [here](src/model/checkpoints/pre_trained/4_10/epoch_83_100.ckpt)
+* **Pre-trained model**:<br>
+  Pre-trained models are stored in [this](src/model/checkpoints/pre_trained) directory. Set the `$CHECKPOINT_FILE ` or pass the directory path through the argument.
 * **Run the inference script**:<br>
-  * Set `$FORCINGS_DIR` and `$REANALYSIS_DIR` or pass the directory paths through the arguments.
+  Set `$FORCINGS_DIR` and `$REANALYSIS_DIR` or pass the directory paths through the arguments.
+
+  * Example usage:
   `python src/test.py -in-days=2 -out-days=1 -forcings-dir=${FORCINGS_DIR} -reanalysis-dir=${REANALYSIS_DIR} -checkpoint-file='path/to/checkpoint'`
 
 ## Implementation overview
 
 ![deep-learning-network-architecture](./docs/source/_static/unet_tapered.svg)
-We implement a modified U-Net style Deep Learning architecture using [PyTorch 1.6](https://pytorch.org/docs/stable/index.html). We use [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) for code organisation and reducing boilerplate. The mammoth size of the total original dataset (~1TB) means we use extensive GPU acceleration in the code using [NVIDIA CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit). For a GeForce RTX 2080 with 12GB memory and 40 vCPUs with 110 GB RAM, this translates to a 25x speedup over using only 8 vCPUs with 52GB RAM. 
+We implement a modified U-Net style Deep Learning architecture using [PyTorch 1.6](https://pytorch.org/docs/stable/index.html). We use [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) for code organisation and reducing boilerplate. The mammoth size of the total original dataset (~1TB) means we use extensive GPU acceleration in the code using [NVIDIA CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit). For a GeForce RTX 2080 with 12GB memory and 40 vCPUs with 110 GB RAM, this translates to a 25x speedup over using only 8 vCPUs with 52GB RAM.
 
 For reading geospatial datasets, we use [`xarray`](http://xarray.pydata.org/en/stable/quick-overview.html) and [`netcdf4`](https://unidata.github.io/netcdf4-python/netCDF4/index.html). The [`imbalanced-learn`](https://imbalanced-learn.readthedocs.io/en/stable/under_sampling.html) library is useful for Undersampling to tackle the high data skew. Code-linting and formatting is done using [`black`](https://black.readthedocs.io/en/stable/) and [`flake8`](https://flake8.pycqa.org/en/latest/).
 
@@ -96,7 +96,7 @@ For reading geospatial datasets, we use [`xarray`](http://xarray.pydata.org/en/s
 
   * **Dataset**: We train our model on 1 year of global data. The `gs://deepfwi-mini-sample` dataset demonstrated in the various EDA and Inference notebooks are not intended for use with `src/train.py`. The scripts will fail if used with those small datasets. If you intend to re-run the training, reach out to us for access to a bigger dataset necessary for the scripts.
 
-  * **Logging**: We use [Weights & Biases](https://www.wandb.com/) for logging our training. When running the training script, you can either provide a `wandb API key` or choose to skip logging altogether. W&B logging is free and lets you monitor your training remotely. You can sign up for an account and then use `wandb login` from inside the environment to supply the key. 
+  * **Logging**: We use [Weights & Biases](https://www.wandb.com/) for logging our training. When running the training script, you can either provide a `wandb API key` or choose to skip logging altogether. W&B logging is free and lets you monitor your training remotely. You can sign up for an account and then use `wandb login` from inside the environment to supply the key.
 
 * The entry point for inference is [src/test.py](src/test.py)
   * **Example Usage**: `python src/test.py [-in-days 4] [-out-days 1] [-forcings-dir ${FORCINGS_DIR}] [-reanalysis-dir ${REANALYSIS_DIR}] [-checkpoint-file]`
@@ -123,11 +123,11 @@ For reading geospatial datasets, we use [`xarray`](http://xarray.pydata.org/en/s
     -binned "0,5.2,11.2,21.3,38.0,50"       Show the extended metrics for supplied comma separated binned FWI value range [Bool/list]
     -undersample False                      Undersample the datapoints having smaller than specified FWI (e.g. -undersample=10) [Bool/float]
     -round-to-zero False                    Round off the target values below the specified threshold to zero [Bool/float]
-    -date_range False                       Filter the data with specified date range. E.g. 2019-04-01,2019-05-01 [Bool/float]
+    -date-range 2019-04-01,2019-05-01       Limit prediction to a smaller subset of dates than available in the data directories [Bool/float]
     -cb_loss False                          Use Class-Balanced loss with the supplied beta parameter [Bool/float]
     -chronological_split False              Do chronological train-test split in the specified ratio [Bool/float]
     -model unet_tapered                     Model to use: unet, unet_downsampled, unet_snipped, unet_tapered, unet_interpolated [str]
-    -out fwi_reanalysis                     Output data for training: fwi_forecast or fwi_reanalysis [str]
+    -out fwi_reanalysis                     Output data for training: gfas_frp or fwi_reanalysis [str]
     -smos_input False                       Use soil-moisture input data [Bool]
     -forecast-dir ${FORECAST_DIR}           Directory containing forecast data. Alternatively set $FORECAST_DIR [str]
     -forcings-dir ${FORCINGS_DIR}           Directory containing forcings data. Alternatively set $FORCINGS_DIR [str]
@@ -142,13 +142,14 @@ For reading geospatial datasets, we use [`xarray`](http://xarray.pydata.org/en/s
   * The [src/dataloader/](src/dataloader) directory contains the implementation specific to the training data.
   * The [src/model/](src/model) directory contains the model implementation.
   * The [src/model/base_model.py](src/model/base_model.py) script has the common implementation used by every model.
+  * The [src/config/](src/config) directory stores the config files generated via training.
 
 * The [data/EDA/](data/EDA/) directory contains the Exploratory Data Analysis and Preprocessing required for each dataset demonstrated via Jupyter Notebooks.
   * Forcings: [data/EDA/EDA_forcings_mini_sample.ipynb](data/EDA/EDA_forcings_mini_sample.ipynb) (*Resolution: 0.07 deg x 0.07 deg, 10 days*)
   * FWI-Reanalysis: [data/EDA/EDA_reanalysis_mini_sample.ipynb](data/EDA/EDA_reanalysis_mini_sample.ipynb) (*Resolution: 0.1 deg x 0.1 deg, 1 day*)
   * FWI-Forecast: [data/EDA/EDA_forecast_mini_sample.ipynb](data/EDA/EDA_forecast_mini_sample.ipynb) (*Resolution: 0.1 deg x 0.1 deg, 10 days*)
-  
-  
+
+
 * A walk-through of the codebase is in the [Code_Structure_Overview.md](Code_Structure_Overview.md).
 
 ## Documentation

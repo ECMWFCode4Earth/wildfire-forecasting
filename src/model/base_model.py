@@ -13,6 +13,9 @@ from skimage.transform import resize
 from pytorch_lightning import _logger as log
 from pytorch_lightning.core import LightningModule
 
+# imports for windows-support platform checking
+import platform
+
 
 class BaseModel(LightningModule):
     """
@@ -281,7 +284,10 @@ passed in as `batch`. The implementation is delegated to the dataloader instead.
         if self.hparams.benchmark:
             return None
 
-        optimizer = optim.Adam(self.parameters(), lr=self.hparams.learning_rate,)
+        optimizer = optim.Adam(
+            self.parameters(),
+            lr=self.hparams.learning_rate,
+        )
         if self.hparams.optim == "cosine":
             scheduler = [
                 optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=10),
@@ -402,7 +408,8 @@ on second call determined by the `force` parameter.
                 str(self.data.min_date + np.timedelta64(i, "D"))
                 for i in self.test_data.indices
             ]
-            log.info(test_set_dates)
+            log.info(f"No. of days in Test Set:  {len(test_set_dates)}")
+            log.info(f"Test Set Dates:           {test_set_dates}")
 
             # Set flag to avoid resource intensive re-preparation during next call
             self.data_prepared = True
@@ -418,7 +425,9 @@ on second call determined by the `force` parameter.
         return DataLoader(
             self.train_data,
             batch_size=self.hparams.batch_size,
-            num_workers=0 if self.hparams.dry_run else 8,
+            num_workers=0
+            if self.hparams.dry_run or platform.system() == "Windows"
+            else 8,
             shuffle=True,
             pin_memory=True if self.hparams.gpus else False,
         )
@@ -434,7 +443,9 @@ on second call determined by the `force` parameter.
         return DataLoader(
             self.test_data,
             batch_size=self.hparams.batch_size,
-            num_workers=0 if self.hparams.dry_run else 8,
+            num_workers=0
+            if self.hparams.dry_run or platform.system() == "Windows"
+            else 8,
             pin_memory=True if self.hparams.gpus else False,
         )
 
@@ -449,6 +460,8 @@ on second call determined by the `force` parameter.
         return DataLoader(
             self.test_data,
             batch_size=self.hparams.batch_size,
-            num_workers=0 if self.hparams.dry_run else 8,
+            num_workers=0
+            if self.hparams.dry_run or platform.system() == "Windows"
+            else 8,
             pin_memory=True if self.hparams.gpus else False,
         )
