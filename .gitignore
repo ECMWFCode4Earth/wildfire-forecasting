@@ -17,6 +17,7 @@
 logs
 .DS_Store
 **/dataloader/*.pkl
+*/data/actual/*.ipynb
 .DS_St
 docs/build
 *.npy
