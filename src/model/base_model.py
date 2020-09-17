@@ -427,7 +427,7 @@ on second call determined by the `force` parameter.
             batch_size=self.hparams.batch_size,
             num_workers=0
             if self.hparams.dry_run or platform.system() == "Windows"
-            else 10,
+            else 4,
             shuffle=True,
             pin_memory=True if self.hparams.gpus else False,
         )
@@ -445,7 +445,7 @@ on second call determined by the `force` parameter.
             batch_size=self.hparams.batch_size,
             num_workers=0
             if self.hparams.dry_run or platform.system() == "Windows"
-            else 10,
+            else 4,
             pin_memory=True if self.hparams.gpus else False,
         )
 
@@ -462,6 +462,6 @@ on second call determined by the `force` parameter.
             batch_size=self.hparams.batch_size,
             num_workers=0
             if self.hparams.dry_run or platform.system() == "Windows"
-            else 10,
+            else 4,
             pin_memory=True if self.hparams.gpus else False,
         )
