@@ -4,11 +4,9 @@ options.
 """
 from datetime import datetime
 from glob import glob
-import os
 import random
 import shutil
 import importlib
-import plac 
 import time
 import signal
 import sys

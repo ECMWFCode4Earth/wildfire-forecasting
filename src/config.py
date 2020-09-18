@@ -1,11 +1,9 @@
 import os
 import plac
 import yaml
-import torch
 from argparse import Namespace
 from pytorch_lightning import _logger as log
 import time
-import sys
 
 
 def str2num(s):
