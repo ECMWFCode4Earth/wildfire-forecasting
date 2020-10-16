@@ -40,10 +40,11 @@ def str2num(s):
             return False
     return s
 
+
 def get_hparams(
     #
     # U-Net config
-    init_features: ("Architecture complexity [int]", "option") = 16,
+    init_features: ("Architecture complexity [int]", "option") = 20,
     in_days: ("Number of input days [int]", "option") = 2,
     out_days: ("Number of output days [int]", "option") = 1,
     #
