@@ -103,6 +103,7 @@ defaults to None
                             for x in (
                                 self.hparams.inp_mean["rh"],
                                 self.hparams.inp_mean["t2"],
+                                self.hparams.inp_mean["lai_hv"],
                                 self.hparams.inp_mean["tp"],
                                 self.hparams.inp_mean["wspeed"],
                             )
@@ -121,6 +122,7 @@ defaults to None
                             for x in (
                                 self.hparams.inp_std["rh"],
                                 self.hparams.inp_std["t2"],
+                                self.hparams.inp_std["lai_hv"],
                                 self.hparams.inp_std["tp"],
                                 self.hparams.inp_std["wspeed"],
                             )
@@ -179,7 +181,7 @@ defaults to None
                         .sel(time=[self.dates[idx] - np.timedelta64(i, "D")])
                         .values.squeeze()
                         for i in range(self.hparams.in_days)
-                        for v in ["rh", "t2", "tp", "wspeed"]
+                        for v in ["rh", "t2", "lai_hv", "tp", "wspeed"]
                     ]
                     + (
                         [
