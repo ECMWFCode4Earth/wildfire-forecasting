@@ -204,10 +204,12 @@ def set_hparams(hparams):
         FORCING_STD_T2,
         FORCING_STD_WSPEED,
         FORCING_STD_RH,
+        FORCING_STD_LAI_HV,
         FORCING_MEAN_WSPEED,
         FORCING_MEAN_TP,
         FORCING_MEAN_T2,
         FORCING_MEAN_RH,
+        FORCING_MEAN_LAI_HV
     )
 
     hparams.inp_mean = {
@@ -215,12 +217,14 @@ def set_hparams(hparams):
         "tp": FORCING_MEAN_TP,
         "t2": FORCING_MEAN_T2,
         "rh": FORCING_MEAN_RH,
+        "lai_hv": FORCING_MEAN_LAI_HV,
     }
     hparams.inp_std = {
         "wspeed": FORCING_STD_WSPEED,
         "tp": FORCING_STD_TP,
         "t2": FORCING_STD_T2,
         "rh": FORCING_STD_RH,
+        "lai_hv": FORCING_STD_LAI_HV,
     }
 
     if hparams.smos_input:
