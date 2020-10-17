@@ -32,7 +32,7 @@ class Model(BaseModel):
         self.hparams = hparams
         out_channels = self.hparams.out_days
         features = self.hparams.init_features
-        in_channels = self.hparams.in_days * (6 if self.hparams.smos_input else 5)
+        in_channels = self.hparams.in_days * (7 if self.hparams.smos_input else 6)
 
         self.encoder1 = Model._block(in_channels, features, name="enc1")
         self.pool1 = nn.MaxPool2d(kernel_size=2, stride=2)
