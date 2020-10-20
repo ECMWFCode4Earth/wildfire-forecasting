@@ -215,15 +215,11 @@ def single_day_plot(result, hparams, m, benchmark=None):
             )
         )
 
-    # bar labels not needed, since it is not legible
-    #     for rect in rect_list:
-    #         autolabel(rect, ax, width)
-
     if benchmark:
         ax.legend()
 
     fig.tight_layout()
-    file_name = time.strftime("%Y%m%d-%H%M%S")
+    file_name = m + "_" + time.strftime("%Y%m%d-%H%M%S")
 
     plt.savefig(file_name, dpi=600, bbox_inches="tight")
 
@@ -313,20 +309,19 @@ def multi_day_plot(result, hparams, benchmark=None, m="acc"):
         handles, labels, bbox_to_anchor=(1, 1), loc="upper left", fontsize="x-small"
     )
 
-    # bar labels not needed, since it is not legible
-    #     for rect in rects:
-    #         autolabel(rect, ax, width)
-
     fig.tight_layout()
 
-    file_name = time.strftime("%Y%m%d-%H%M%S")
+    file_name = m + "_" + time.strftime("%Y%m%d-%H%M%S")
 
     plt.savefig(file_name, dpi=600, bbox_inches="tight")
 
 
-def plot(**kwargs) -> None:
+def plot(results_file, **kwargs) -> None:
     """
     Make plots. The kwargs are equivalent to commandline args
+
+    :param results_file: json file of results
+    :type results_file: str
     """
     plt.rcParams["figure.figsize"] = [20, 10]
     plt.rcParams["font.size"] = 18
@@ -337,7 +332,7 @@ def plot(**kwargs) -> None:
 
     hparams = Namespace(**get_hparams(**kwargs))
 
-    result, results_summary = read_json("results.json")
+    result, results_summary = read_json(results_file)
 
     for m in ["acc", "mse", "mae"]:
         if hparams.out_days > 1:
@@ -361,4 +356,4 @@ config = dict(
     out_days=14,
 )
 
-plot(**config, benchmark=False)
+plot("results.json", **config, benchmark=False)
