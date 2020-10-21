@@ -75,7 +75,7 @@ We include a `Dockerfile` & `docker-compose.yml` and provide detailed instructio
 * **Examples**:<br>
   The [Inference_2_1.ipynb](examples/Inference_2_1.ipynb) and [Inference_4_10.ipynb](examples/Inference_4_10.ipynb) notebooks demonstrate the end-to-end procedure of loading data, creating model from saved checkpoint, and getting the predictions for 2 day input, 1 day output; and 4 day input, 10 day output experiments respectively.
 * **Testing data**:<br>
-  Ensure the access to fwi-forcings and fwi-reanalysis data. Limited sample data is available at `gs://deepfwi-mini-sample` (Released for educational purposes only).
+  Ensure the access to fwi-forcings and fwi-reanalysis data. Limited sample data is available at `gs://deepfwi-mini-sample` which contains datasets for the 4 main input forcings variables: `t2`, `tp`, `wspeed` and `rh` and output label `fwi-reanalysis` (released for educational purposes only).
 * **Pre-trained model**:<br>
   Pre-trained models are stored in [this](src/model/checkpoints/pre_trained) directory. Set the `$CHECKPOINT_FILE ` or pass the directory path through the argument.
 * **Run the inference script**:<br>
@@ -144,7 +144,7 @@ For reading geospatial datasets, we use [`xarray`](http://xarray.pydata.org/en/s
   * The [src/model/base_model.py](src/model/base_model.py) script has the common implementation used by every model.
   * The [src/config/](src/config) directory stores the config files generated via training.
 
-* The [data/EDA/](data/EDA/) directory contains the Exploratory Data Analysis and Preprocessing required for each dataset demonstrated via Jupyter Notebooks.
+* The [data/EDA/](data/EDA/) directory contains the Exploratory Data Analysis and Preprocessing required for forcings data demonstrated via Jupyter Notebooks.
   * Forcings: [data/EDA/EDA_forcings_mini_sample.ipynb](data/EDA/EDA_forcings_mini_sample.ipynb) (*Resolution: 0.07 deg x 0.07 deg, 10 days*)
   * FWI-Reanalysis: [data/EDA/EDA_reanalysis_mini_sample.ipynb](data/EDA/EDA_reanalysis_mini_sample.ipynb) (*Resolution: 0.1 deg x 0.1 deg, 1 day*)
   * FWI-Forecast: [data/EDA/EDA_forecast_mini_sample.ipynb](data/EDA/EDA_forecast_mini_sample.ipynb) (*Resolution: 0.1 deg x 0.1 deg, 10 days*)
