@@ -98,6 +98,10 @@ For reading geospatial datasets, we use [`xarray`](http://xarray.pydata.org/en/s
 
   * **Logging**: We use [Weights & Biases](https://www.wandb.com/) for logging our training. When running the training script, you can either provide a `wandb API key` or choose to skip logging altogether. W&B logging is free and lets you monitor your training remotely. You can sign up for an account and then use `wandb login` from inside the environment to supply the key.
 
+  * **Visualizing Results**: Upon completion of training, the results summary json from `wandb` can be visualized in terms of Accuracy %, MSE % and MAE % using the plotting module.
+    * **Example Usage**:
+  `python src/plot.py -f <file> -i <in-days> -o <out-days>`
+
 * The entry point for inference is [src/test.py](src/test.py)
   * **Example Usage**: `python src/test.py [-in-days 4] [-out-days 1] [-forcings-dir ${FORCINGS_DIR}] [-reanalysis-dir ${REANALYSIS_DIR}] [-checkpoint-file]`
 
