@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from argparse import Namespace
 import warnings
+import sys
+import getopt
 
 
 def str2num(s):
@@ -337,23 +339,34 @@ def plot(results_file, **kwargs) -> None:
     for m in ["acc", "mse", "mae"]:
         if hparams.out_days > 1:
             multi_day_plot(
-                result=result[m],
-                hparams=hparams,
-                m=m,
-                benchmark=None,
+                result=result[m], hparams=hparams, m=m, benchmark=None,
             )
         else:
             single_day_plot(
-                result=result[m],
-                hparams=hparams,
-                m=m,
-                benchmark=None,
+                result=result[m], hparams=hparams, m=m, benchmark=None,
             )
 
 
-config = dict(
-    in_days=4,
-    out_days=14,
-)
+def main(argv):
+    in_days = 4
+    out_days = 10
+    try:
+        opts, args = getopt.getopt(argv, "hf:i:o:", ["file=", "in-days=", "out-days="])
+    except getopt.GetoptError:
+        print("test.py -f <file> -i <in-days> -o <out-days>")
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt == "-h":
+            print("test.py -f <file> -i <in-days> -o <out-days>")
+        elif opt in ("-f", "--file"):
+            file_name = str(arg)
+        elif opt in ("-i", "--in-days"):
+            in_days = int(arg)
+        else:
+            out_days = int(arg)
+    config = dict(in_days=in_days, out_days=out_days,)
+    plot(results_file=file_name, **config, benchmark=False)
 
-plot("results.json", **config, benchmark=False)
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
