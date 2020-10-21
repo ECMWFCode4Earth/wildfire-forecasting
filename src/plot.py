@@ -353,11 +353,12 @@ def main(argv):
     try:
         opts, args = getopt.getopt(argv, "hf:i:o:", ["file=", "in-days=", "out-days="])
     except getopt.GetoptError:
-        print("test.py -f <file> -i <in-days> -o <out-days>")
+        print("plot.py -f <file> -i <in-days> -o <out-days>")
         sys.exit(2)
     for opt, arg in opts:
         if opt == "-h":
-            print("test.py -f <file> -i <in-days> -o <out-days>")
+            print("plot.py -f <file> -i <in-days> -o <out-days>")
+            sys.exit(2)
         elif opt in ("-f", "--file"):
             file_name = str(arg)
         elif opt in ("-i", "--in-days"):
@@ -369,4 +370,7 @@ def main(argv):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    if len(sys.argv) < 2:
+        print("plot.py -f <file> -i <in-days> -o <out-days>")
+    else:
+        main(sys.argv[1:])
