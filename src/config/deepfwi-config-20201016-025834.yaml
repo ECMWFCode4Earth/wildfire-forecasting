@@ -1,0 +1,35 @@
+init_features: 16
+in_days: 7
+out_days: 21
+epochs: 30
+learning_rate: 0.001
+batch_size: 1
+split: 0.2
+use_16bit: true
+gpus: 1
+optim: one_cycle
+dry_run: false
+find_lr: false
+search_bs: false
+case_study: false
+clip_output: false
+boxcox: 0.1182
+binned: [0, 5.2, 11.2, 21.3, 38.0, 50]
+round_to_zero: false
+isolate_frp: false
+date_range: ['2019-04-01', '2019-09-30']
+cb_loss: false
+chronological_split: false
+undersample: false
+model: unet_tapered
+out: gfas_frp
+benchmark: false
+smos_input: false
+forecast_dir: null
+forcings_dir: /nvme0/input_vars_2019-04to2020-03/
+smos_dir: null
+reanalysis_dir: null
+frp_dir: /nvme0/gfas-frp
+mask: src/dataloader/mask/reanalysis_mask.npy
+comment: wekeo_gpu_deepGEFF_6months_Forcings
+checkpoint_file: false

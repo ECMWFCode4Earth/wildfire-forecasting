@@ -1,0 +1,35 @@
+init_features: 20
+in_days: 4
+out_days: 14
+epochs: 30
+learning_rate: 0.001
+batch_size: 1
+split: 0.2
+use_16bit: true
+gpus: 1
+optim: one_cycle
+dry_run: false
+find_lr: false
+search_bs: false
+case_study: false
+clip_output: false
+boxcox: 0.1182
+binned: [0, 5.2, 11.2, 21.3, 38.0, 50]
+round_to_zero: false
+isolate_frp: false
+date_range: ['2019-07-01', '2019-11-30']
+cb_loss: true
+chronological_split: false
+undersample: true
+model: unet_tapered
+out: fwi_reanalysis
+benchmark: false
+smos_input: false
+forecast_dir: null
+forcings_dir: /nvme0/input_vars_2019-04to2020-03/
+smos_dir: null
+reanalysis_dir: /nvme0/fwi-reanalysis-2019-04to2020-03/
+frp_dir: null
+mask: src/dataloader/mask/reanalysis_mask.npy
+comment: wekeo_gpu_deepFWI_5month_Forcings+SKT_ext_US_CB
+checkpoint_file: false
