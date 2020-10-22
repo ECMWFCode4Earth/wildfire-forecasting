@@ -91,15 +91,17 @@ We implement a modified U-Net style Deep Learning architecture using [PyTorch 1.
 
 For reading geospatial datasets, we use [`xarray`](http://xarray.pydata.org/en/stable/quick-overview.html) and [`netcdf4`](https://unidata.github.io/netcdf4-python/netCDF4/index.html). The [`imbalanced-learn`](https://imbalanced-learn.readthedocs.io/en/stable/under_sampling.html) library is useful for Undersampling to tackle the high data skew. Code-linting and formatting is done using [`black`](https://black.readthedocs.io/en/stable/) and [`flake8`](https://flake8.pycqa.org/en/latest/).
 
-* The entry point for training is [src/train.py](src/train.py)
+  - The entry point for training is [src/train.py](src/train.py). Input variables used for training the model, by default, as configured in the [master](https://github.com/esowc/wildfire-forecasting/tree/master) branch, are `Temperature`, `Precipitation`, `Windspeed` and `Relative Humidity`. Support for additional variables `Leaf Area Index`, `Volumetric Soil Water Level 1` and `Land Skin Temperature` and implemented in the respective [branches](https://github.com/esowc/wildfire-forecasting/branches):
 
-Input variables used for training the model, by default, as configured in the `master` branch, are `Temperature`, `Precipitation`, `Windspeed` and `Relative Humidity`. Support for additional variables `Leaf Area Index`, `Volumetric Soil Water Level 1` and `Land Skin Temperature` and implemented in the respective [branches](https://github.com/esowc/wildfire-forecasting/branches)"
-    - For training with variables `t2`, `tp`, `wspeed` and `rh` + additionally `lai`, switch to the [lai](https://github.com/esowc/wildfire-forecasting/tree/lai) branch. **Note:** You will additionally require require the data for precisely these 5 variables in the /data dir to perform the training/inference for this combination of inputs.
-    - For training with variables `t2`, `tp`, `wspeed` and `rh` + additionally `swvl1`, which to the [swvl1](https://github.com/esowc/wildfire-forecasting/tree/swvl1) branch. **Note:** You will additionally require require the data for precisely these 5 variables in the /data dir to perform the training/inference for this combination of inputs.
-    -- For training with variables `t2`, `tp`, `wspeed` and `rh` + additionally `skt`, switch to the [skt](https://github.com/esowc/wildfire-forecasting/tree/skt) branch. **Note:** You will additionally require require the data for precisely these 5 variables in the /data dir to perform the training/inference for this combination of inputs.
-    -- For training with variables `t2`, `tp`, `wspeed` and `rh` + additionally `skt` as well as `skt+swvl1`, switch to the [skt+swvl1](https://github.com/esowc/wildfire-forecasting/tree/skt+swvl1) branch. **Note:** You will additionally require require the data for precisely these 6 variables in the /data dir to perform the training/inference for this combination of inputs.
+    - For training with input variables `t2`, `tp`, `wspeed` and `rh` + additionally `lai`, switch to the [lai](https://github.com/esowc/wildfire-forecasting/tree/lai) branch. **Note:** You will additionally require require the data for precisely these 5 variables in the /data dir to perform the training/inference for this combination of inputs.
 
-  * **Example Usage**: `python src/train.py [-in-days 4] [-out-days 1] [-forcings-dir ${FORCINGS_DIR}] [-reanalysis-dir ${REANALYSIS_DIR}]`
+    - For training with input variables `t2`, `tp`, `wspeed` and `rh` + additionally `swvl1`, which to the [swvl1](https://github.com/esowc/wildfire-forecasting/tree/swvl1) branch. **Note:** You will additionally require require the data for precisely these 5 variables in the /data dir to perform the training/inference for this combination of inputs.
+
+    - For training with input variables `t2`, `tp`, `wspeed` and `rh` + additionally `skt`, switch to the [skt](https://github.com/esowc/wildfire-forecasting/tree/skt) branch. **Note:** You will additionally require require the data for precisely these 5 variables in the /data dir to perform the training/inference for this combination of inputs.
+
+    - For training with input variables `t2`, `tp`, `wspeed` and `rh` + additionally `skt` as well as `skt+swvl1`, switch to the [skt+swvl1](https://github.com/esowc/wildfire-forecasting/tree/skt+swvl1) branch. **Note:** You will additionally require require the data for precisely these 6 variables in the /data dir to perform the training/inference for this combination of inputs.
+
+      * **Example Usage**: `python src/train.py [-in-days 4] [-out-days 1] [-forcings-dir ${FORCINGS_DIR}] [-reanalysis-dir ${REANALYSIS_DIR}]`
 
   * **Dataset**: We train our model on 1 year of global data. The `gs://deepfwi-mini-sample` dataset demonstrated in the various EDA and Inference notebooks are not intended for use with `src/train.py`. The scripts will fail if used with those small datasets. If you intend to re-run the training, reach out to us for access to a bigger dataset necessary for the scripts.
 
@@ -109,7 +111,7 @@ Input variables used for training the model, by default, as configured in the `m
     * **Example Usage**:
   `python src/plot.py -f <file> -i <in-days> -o <out-days>`
 
-* The entry point for inference is [src/test.py](src/test.py)
+* The entry point for inference is [src/test.py](src/test.py). **Note:** When performing inference for a model trained with an additional variable in any of the branches, ensure access to the respective variables in the /data dir.
   * **Example Usage**: `python src/test.py [-in-days 4] [-out-days 1] [-forcings-dir ${FORCINGS_DIR}] [-reanalysis-dir ${REANALYSIS_DIR}] [-checkpoint-file]`
 
 * **Configuration Details**:
