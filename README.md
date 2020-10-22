@@ -93,7 +93,11 @@ For reading geospatial datasets, we use [`xarray`](http://xarray.pydata.org/en/s
 
 * The entry point for training is [src/train.py](src/train.py)
 
-Input variables used for training the model, by default, as configured in the `master` branch, are `t2`, `tp`, `wspeed` and `rh`. Support for additional variables `lai`, `swvl1` and `skt` and implemented in the respective [branches](https://github.com/esowc/wildfire-forecasting/branches).
+Input variables used for training the model, by default, as configured in the `master` branch, are `Temperature`, `Precipitation`, `Windspeed` and `Relative Humidity`. Support for additional variables `Leaf Area Index`, `Volumetric Soil Water Level 1` and `Land Skin Temperature` and implemented in the respective [branches](https://github.com/esowc/wildfire-forecasting/branches)"
+    - For training with variables `t2`, `tp`, `wspeed` and `rh` + additionally `lai`, switch to the [lai](https://github.com/esowc/wildfire-forecasting/tree/lai) branch. **Note:** You will additionally require require the data for precisely these 5 variables in the /data dir to perform the training/inference for this combination of inputs.
+    - For training with variables `t2`, `tp`, `wspeed` and `rh` + additionally `swvl1`, which to the [swvl1](https://github.com/esowc/wildfire-forecasting/tree/swvl1) branch. **Note:** You will additionally require require the data for precisely these 5 variables in the /data dir to perform the training/inference for this combination of inputs.
+    -- For training with variables `t2`, `tp`, `wspeed` and `rh` + additionally `skt`, switch to the [skt](https://github.com/esowc/wildfire-forecasting/tree/skt) branch. **Note:** You will additionally require require the data for precisely these 5 variables in the /data dir to perform the training/inference for this combination of inputs.
+    -- For training with variables `t2`, `tp`, `wspeed` and `rh` + additionally `skt` as well as `skt+swvl1`, switch to the [skt+swvl1](https://github.com/esowc/wildfire-forecasting/tree/skt+swvl1) branch. **Note:** You will additionally require require the data for precisely these 6 variables in the /data dir to perform the training/inference for this combination of inputs.
 
   * **Example Usage**: `python src/train.py [-in-days 4] [-out-days 1] [-forcings-dir ${FORCINGS_DIR}] [-reanalysis-dir ${REANALYSIS_DIR}]`
 
