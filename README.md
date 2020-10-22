@@ -75,7 +75,7 @@ We include a `Dockerfile` & `docker-compose.yml` and provide detailed instructio
 * **Examples**:<br>
   The [Inference_2_1.ipynb](examples/Inference_2_1.ipynb) and [Inference_4_10.ipynb](examples/Inference_4_10.ipynb) notebooks demonstrate the end-to-end procedure of loading data, creating model from saved checkpoint, and getting the predictions for 2 day input, 1 day output; and 4 day input, 10 day output experiments respectively.
 * **Testing data**:<br>
-  Ensure the access to fwi-forcings and fwi-reanalysis data. Limited sample data is available at `gs://deepfwi-mini-sample` (Released for educational purposes only).
+  Ensure the access to fwi-forcings and fwi-reanalysis data. Limited sample data is available at `gs://deepfwi-mini-sample` which contains datasets for the 4 main input forcings variables: `t2`, `tp`, `wspeed` and `rh` and output label `fwi-reanalysis` (released for educational purposes only).
 * **Pre-trained model**:<br>
   Pre-trained models are stored in [this](src/model/checkpoints/pre_trained) directory. Set the `$CHECKPOINT_FILE ` or pass the directory path through the argument.
 * **Run the inference script**:<br>
@@ -91,17 +91,27 @@ We implement a modified U-Net style Deep Learning architecture using [PyTorch 1.
 
 For reading geospatial datasets, we use [`xarray`](http://xarray.pydata.org/en/stable/quick-overview.html) and [`netcdf4`](https://unidata.github.io/netcdf4-python/netCDF4/index.html). The [`imbalanced-learn`](https://imbalanced-learn.readthedocs.io/en/stable/under_sampling.html) library is useful for Undersampling to tackle the high data skew. Code-linting and formatting is done using [`black`](https://black.readthedocs.io/en/stable/) and [`flake8`](https://flake8.pycqa.org/en/latest/).
 
-* The entry point for training is [src/train.py](src/train.py)
+  - The entry point for training is [src/train.py](src/train.py). Input variables used for training the model, by default, as configured in the [master](https://github.com/esowc/wildfire-forecasting/tree/master) branch, are `Temperature`, `Precipitation`, `Windspeed` and `Relative Humidity`. Support for additional variables `Leaf Area Index`, `Volumetric Soil Water Level 1` and `Land Skin Temperature` and implemented in the respective [branches](https://github.com/esowc/wildfire-forecasting/branches):
 
-Input variables used for training the model, by default, as configured in the `master` branch, are `t2`, `tp`, `wspeed` and `rh`. Support for additional variables `lai`, `swvl1` and `skt` and implemented in the respective [branches](https://github.com/esowc/wildfire-forecasting/branches).
+    - For training with input variables `t2`, `tp`, `wspeed` and `rh` + additionally `lai`, switch to the [lai](https://github.com/esowc/wildfire-forecasting/tree/lai) branch. **Note:** You will additionally require require the data for precisely these 5 variables in the /data dir to perform the training/inference for this combination of inputs.
 
-  * **Example Usage**: `python src/train.py [-in-days 4] [-out-days 1] [-forcings-dir ${FORCINGS_DIR}] [-reanalysis-dir ${REANALYSIS_DIR}]`
+    - For training with input variables `t2`, `tp`, `wspeed` and `rh` + additionally `swvl1`, which to the [swvl1](https://github.com/esowc/wildfire-forecasting/tree/swvl1) branch. **Note:** You will additionally require require the data for precisely these 5 variables in the /data dir to perform the training/inference for this combination of inputs.
+
+    - For training with input variables `t2`, `tp`, `wspeed` and `rh` + additionally `skt`, switch to the [skt](https://github.com/esowc/wildfire-forecasting/tree/skt) branch. **Note:** You will additionally require require the data for precisely these 5 variables in the /data dir to perform the training/inference for this combination of inputs.
+
+    - For training with input variables `t2`, `tp`, `wspeed` and `rh` + additionally `skt` as well as `skt+swvl1`, switch to the [skt+swvl1](https://github.com/esowc/wildfire-forecasting/tree/skt+swvl1) branch. **Note:** You will additionally require require the data for precisely these 6 variables in the /data dir to perform the training/inference for this combination of inputs.
+
+      * **Example Usage**: `python src/train.py [-in-days 4] [-out-days 1] [-forcings-dir ${FORCINGS_DIR}] [-reanalysis-dir ${REANALYSIS_DIR}]`
 
   * **Dataset**: We train our model on 1 year of global data. The `gs://deepfwi-mini-sample` dataset demonstrated in the various EDA and Inference notebooks are not intended for use with `src/train.py`. The scripts will fail if used with those small datasets. If you intend to re-run the training, reach out to us for access to a bigger dataset necessary for the scripts.
 
   * **Logging**: We use [Weights & Biases](https://www.wandb.com/) for logging our training. When running the training script, you can either provide a `wandb API key` or choose to skip logging altogether. W&B logging is free and lets you monitor your training remotely. You can sign up for an account and then use `wandb login` from inside the environment to supply the key.
 
-* The entry point for inference is [src/test.py](src/test.py)
+  * **Visualizing Results**: Upon completion of training, the results summary json from `wandb` can be visualized in terms of Accuracy %, MSE % and MAE % using the plotting module.
+    * **Example Usage**:
+  `python src/plot.py -f <file> -i <in-days> -o <out-days>`
+
+* The entry point for inference is [src/test.py](src/test.py). **Note:** When performing inference for a model trained with an additional variable in any of the branches, ensure access to the respective variables in the /data dir.
   * **Example Usage**: `python src/test.py [-in-days 4] [-out-days 1] [-forcings-dir ${FORCINGS_DIR}] [-reanalysis-dir ${REANALYSIS_DIR}] [-checkpoint-file]`
 
 * **Configuration Details**:
@@ -147,7 +157,7 @@ Input variables used for training the model, by default, as configured in the `m
   * The [src/model/base_model.py](src/model/base_model.py) script has the common implementation used by every model.
   * The [src/config/](src/config) directory stores the config files generated via training.
 
-* The [data/EDA/](data/EDA/) directory contains the Exploratory Data Analysis and Preprocessing required for each dataset demonstrated via Jupyter Notebooks.
+* The [data/EDA/](data/EDA/) directory contains the Exploratory Data Analysis and Preprocessing required for forcings data demonstrated via Jupyter Notebooks.
   * Forcings: [data/EDA/EDA_forcings_mini_sample.ipynb](data/EDA/EDA_forcings_mini_sample.ipynb) (*Resolution: 0.07 deg x 0.07 deg, 10 days*)
   * FWI-Reanalysis: [data/EDA/EDA_reanalysis_mini_sample.ipynb](data/EDA/EDA_reanalysis_mini_sample.ipynb) (*Resolution: 0.1 deg x 0.1 deg, 1 day*)
   * FWI-Forecast: [data/EDA/EDA_forecast_mini_sample.ipynb](data/EDA/EDA_forecast_mini_sample.ipynb) (*Resolution: 0.1 deg x 0.1 deg, 10 days*)
