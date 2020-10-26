@@ -99,7 +99,7 @@ For reading geospatial datasets, we use [`xarray`](http://xarray.pydata.org/en/s
 
     - For training with input variables `t2`, `tp`, `wspeed` and `rh` + additionally `skt`, switch to the [skt](https://github.com/esowc/wildfire-forecasting/tree/skt) branch. **Note:** You will additionally require require the data for precisely these 5 variables in the /data dir to perform the training/inference for this combination of inputs.
 
-    - For training with input variables `t2`, `tp`, `wspeed` and `rh` + additionally `skt` as well as `skt+swvl1`, switch to the [skt+swvl1](https://github.com/esowc/wildfire-forecasting/tree/skt+swvl1) branch. **Note:** You will additionally require require the data for precisely these 6 variables in the /data dir to perform the training/inference for this combination of inputs.
+    - For training with input variables `t2`, `tp`, `wspeed` and `rh` + additionally `skt` as well as `swvl1`, switch to the [skt+swvl1](https://github.com/esowc/wildfire-forecasting/tree/skt+swvl1) branch. **Note:** You will additionally require require the data for precisely these 6 variables in the /data dir to perform the training/inference for this combination of inputs.
 
       * **Example Usage**: `python src/train.py [-in-days 4] [-out-days 1] [-forcings-dir ${FORCINGS_DIR}] [-reanalysis-dir ${REANALYSIS_DIR}]`
 
