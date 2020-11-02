@@ -6,5 +6,5 @@
 | [epoch_91_100.ckpt](2_1/epoch_91_100.ckpt)  | T2, TP, RH, WSpeed | 2          | FWI-Reanalysis     | 1           | - Undersampling for FWI < 10<br>- Box-cox transformation    | 100           |
 | [epoch_83_100.ckpt](4_10/epoch_83_100.ckpt) | T2, TP, RH, WSpeed | 4          | FWI-Reanalysis     | 10          | - Undersampling for FWI < 10<br>- Box-cox transformation    | 100           |
 | [epoch_99_100.ckpt](4_10/epoch_99_100.ckpt) | T2, TP, RH, WSpeed | 4          | FWI-Reanalysis     | 10          | - FWI between [0,1] rounded off<br>- Box-cox transformation | 100           |
-| [1ltufud2_94_100.ckpt](src/model/checkpoints/pre_trained/4_10/1ltufud2_94_100.ckpt) | T2, TP, RH, WSpeed | 4          | FWI-Reanalysis     | 10          |                                                             | 100           |
-| [162eu91w_87_100.ckpt](src/model/checkpoints/pre_trained/4_10/162eu91w_87_100.ckpt) | T2, TP, RH, WSpeed | 4          | FWI-Reanalysis     | 10          |                                                             | 100           |
+| [1ltufud2_94_100.ckpt](src/model/checkpoints/pre_trained/4_10/1ltufud2_94_100.ckpt) | T2, TP, RH, WSpeed | 4          | FWI-Reanalysis     | 10          | - Box-cox transformation                                    | 100           |
+| [162eu91w_87_100.ckpt](src/model/checkpoints/pre-trained/4_10/162eu91w_87_100.ckpt) | T2, TP, RH, WSpeed | 4          | FWI-Reanalysis     | 10          | - Undersampling for FWI < 10<br>- Box-cox transformation    | 100           |
