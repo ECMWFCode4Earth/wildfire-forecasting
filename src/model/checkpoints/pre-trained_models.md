@@ -1,6 +1,6 @@
 # Pre-trained Checkpoint Files
 
-###### Checkpoint files are available for download from Zenodo. 
+ Below is a table of all the deepGEFF training that has been done so far to predict the target output variable, in this case, FWI-Reanalysis. Checkpoint files for these pre-trained models are available for download from GCP as demonstrated in the [examples](examples).
 
 | Run ID   | Checkpoint file name   | Output Days | Input Variables           | Months | Input Days | Output Variable | Preprocessing                                                                     | Epochs | Accuracy                                                                               |
 |----------|------------------------|-------------|---------------------------|--------|------------|-----------------|-----------------------------------------------------------------------------------|--------|----------------------------------------------------------------------------------------|
