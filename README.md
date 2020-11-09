@@ -77,7 +77,7 @@ We include a `Dockerfile` & `docker-compose.yml` and provide detailed instructio
 * **Testing data**:<br>
   Ensure the access to fwi-forcings and fwi-reanalysis data. Limited sample data is available at `gs://deepfwi-mini-sample` which contains datasets for the 4 main input forcings variables: `t2`, `tp`, `wspeed` and `rh` and output label `fwi-reanalysis` (released for educational purposes only).
 * **Pre-trained model**:<br>
-  All previously trained models are listed in [pre-trained_models.md](src/model/checkpoints/pre-trained_models.md) with associated metadata. Select and download the desired pre-trained model checkpoint file via gsutil, set the `$CHECKPOINT_FILE`, `$FORCINGS_DIR` and `$REANALYSIS_DIR` directory paths through the flags while running testing or inference.
+  All previously trained models are listed in [pre-trained_models.md](src/model/checkpoints/pre-trained_models.md) with associated metadata. Select and download the desired pre-trained model checkpoint file via gsutil from `gs://deepgeff-models-v0/pre-trained_models`, set the `$CHECKPOINT_FILE`, `$FORCINGS_DIR` and `$REANALYSIS_DIR` directory paths through the flags while running testing or inference.
 
   * Example usage:
   `python src/test.py -in-days=2 -out-days=1 -forcings-dir=${FORCINGS_DIR} -reanalysis-dir=${REANALYSIS_DIR} -checkpoint-file='path/to/checkpoint'`

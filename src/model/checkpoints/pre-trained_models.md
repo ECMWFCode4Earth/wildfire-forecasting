@@ -1,6 +1,10 @@
 # Pre-trained Checkpoint Files
 
- Below is a table of all the deepGEFF training that has been done so far to predict the target output variable, FWI-Reanalysis. Checkpoint files for these pre-trained models are available for download from GCP as demonstrated in the [examples](examples).
+The table below documents all the deepGEFF models that have been trained to predict the target output variable, FWI-Reanalysis. Checkpoint files for these pre-trained models are hosted on a Google Bucket and can be downloaded by running the command:
+```
+gsutil cp gs://deepgeff-models-v0/pre-trained_models/{Input Days}_{Output Days}/{Run ID}/{Checkpoint file name} .
+```
+
 
 | Run ID   | Checkpoint file name   | Output Days | Input Variables           | Months | Input Days | Preprocessing                                                                     | Epochs | Accuracy                                                                               |
 |----------|------------------------|-------------|---------------------------|--------|------------|-----------------------------------------------------------------------------------|--------|----------------------------------------------------------------------------------------|
