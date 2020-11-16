@@ -73,13 +73,11 @@ We include a `Dockerfile` & `docker-compose.yml` and provide detailed instructio
 ## Running Inference
 
 * **Examples**:<br>
-  The [Inference_2_1.ipynb](examples/Inference_2_1.ipynb) and [Inference_4_10.ipynb](examples/Inference_4_10.ipynb) notebooks demonstrate the end-to-end procedure of loading data, creating model from saved checkpoint, and getting the predictions for 2 day input, 1 day output; and 4 day input, 10 day output experiments respectively.
+  The [Inference_2_1.ipynb](examples/Inference_2_1.ipynb) and [Inference_4_10.ipynb](examples/Inference_4_10.ipynb) notebooks demonstrate the end-to-end procedure of loading data, creating model from saved checkpoint files, and getting the predictions for 2 day input, 1 day output; and 4 day input, 10 day output experiments respectively.
 * **Testing data**:<br>
   Ensure the access to fwi-forcings and fwi-reanalysis data. Limited sample data is available at `gs://deepfwi-mini-sample` which contains datasets for the 4 main input forcings variables: `t2`, `tp`, `wspeed` and `rh` and output label `fwi-reanalysis` (released for educational purposes only).
 * **Pre-trained model**:<br>
-  Pre-trained models are stored in [this](src/model/checkpoints/pre_trained) directory. Set the `$CHECKPOINT_FILE ` or pass the directory path through the argument.
-* **Run the inference script**:<br>
-  Set `$FORCINGS_DIR` and `$REANALYSIS_DIR` or pass the directory paths through the arguments.
+  All previously trained models are listed in [pre-trained_models.md](src/model/checkpoints/pre-trained_models.md) with associated metadata. Select and download the desired pre-trained model checkpoint file via gsutil from `gs://deepgeff-models-v0`, set the `$CHECKPOINT_FILE`, `$FORCINGS_DIR` and `$REANALYSIS_DIR` directory paths through the flags while running testing or inference.
 
   * Example usage:
   `python src/test.py -in-days=2 -out-days=1 -forcings-dir=${FORCINGS_DIR} -reanalysis-dir=${REANALYSIS_DIR} -checkpoint-file='path/to/checkpoint'`
@@ -99,7 +97,7 @@ For reading geospatial datasets, we use [`xarray`](http://xarray.pydata.org/en/s
 
     - For training with input variables `t2`, `tp`, `wspeed` and `rh` + additionally `skt`, switch to the [skt](https://github.com/esowc/wildfire-forecasting/tree/skt) branch. **Note:** You will additionally require require the data for precisely these 5 variables in the /data dir to perform the training/inference for this combination of inputs.
 
-    - For training with input variables `t2`, `tp`, `wspeed` and `rh` + additionally `skt` as well as `skt+swvl1`, switch to the [skt+swvl1](https://github.com/esowc/wildfire-forecasting/tree/skt+swvl1) branch. **Note:** You will additionally require require the data for precisely these 6 variables in the /data dir to perform the training/inference for this combination of inputs.
+    - For training with input variables `t2`, `tp`, `wspeed` and `rh` + additionally `skt` as well as `swvl1`, switch to the [skt+swvl1](https://github.com/esowc/wildfire-forecasting/tree/skt+swvl1) branch. **Note:** You will additionally require require the data for precisely these 6 variables in the /data dir to perform the training/inference for this combination of inputs.
 
       * **Example Usage**: `python src/train.py [-in-days 4] [-out-days 1] [-forcings-dir ${FORCINGS_DIR}] [-reanalysis-dir ${REANALYSIS_DIR}]`
 
@@ -112,7 +110,7 @@ For reading geospatial datasets, we use [`xarray`](http://xarray.pydata.org/en/s
   `python src/plot.py -f <file> -i <in-days> -o <out-days>`
 
 * The entry point for inference is [src/test.py](src/test.py). **Note:** When performing inference for a model trained with an additional variable in any of the branches, ensure access to the respective variables in the /data dir.
-  * **Example Usage**: `python src/test.py [-in-days 4] [-out-days 1] [-forcings-dir ${FORCINGS_DIR}] [-reanalysis-dir ${REANALYSIS_DIR}] [-checkpoint-file]`
+  * **Example Usage**: `python src/test.py [-in-days 4] [-out-days 1] [-forcings-dir ${FORCINGS_DIR}] [-reanalysis-dir ${REANALYSIS_DIR}] [-checkpoint-file ${CHECKPOINT_FILE}]`
 
 * **Configuration Details**:
 
