@@ -7,6 +7,7 @@ import random
 import plac
 import sys
 import logging
+import json
 import warnings
 import matplotlib.pyplot as plt
 from collections import defaultdict
@@ -70,6 +71,9 @@ def main(hparams, verbose=True):
         result = trainer.test(model, verbose=verbose)[0]
     except:
         result = trainer.test(model)[0]
+
+    with open('result.json', 'w') as outfile:
+        json.dump(result, outfile)
 
     return result, model.hparams
 
@@ -297,6 +301,9 @@ equivalent to the commandline arguments.
 
     clear_output(wait=True)
     result = process_result(result)
+    print("result:\n", result)
+    print("benchmark result:\n", benchmark_result)
+
 
     for m in ["acc", "mse", "mae"]:
         if hparams.out_days > 1:
