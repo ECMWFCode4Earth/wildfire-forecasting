@@ -6,6 +6,7 @@ from argparse import Namespace
 import random
 import plac
 import sys
+import json
 import logging
 import warnings
 import matplotlib.pyplot as plt
@@ -70,6 +71,9 @@ def main(hparams, verbose=True):
         result = trainer.test(model, verbose=verbose)[0]
     except:
         result = trainer.test(model)[0]
+    
+    with open('result.json', 'w') as outfile:
+        json.dump(result, outfile)
 
     return result, model.hparams
 
