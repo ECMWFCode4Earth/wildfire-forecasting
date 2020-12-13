@@ -3,6 +3,7 @@
 
 [src/test.py](src/test.py) is a general-purpose test script. Once you have trained your model with `train.py`, you can use this script to test the model. It will load a saved model from `-checkpoint-file` and print and save the results to `logs` directory.
 
+[src/plot.py](src/plot.py) is a general-purposr plotting script. Once you have tested your model with `test.py`, you can use this script to visualize the result metrics from the result.json file in the form of Accuracy, Mean Absolute Error (MAE) & Mean Squared Error (MSE) for single-day and multi-day predictions. 2-1 and 4-10 predictions can additionally be benchmarked with FWI forecast.
 
 [src/dataloader](src/dataloader) directory contains all the modules related to data loading and preprocessing. To add a custom dataset class called `dummy`, you need to add a file called `dummy_dataset.py` and define a subclass `DummyDataset` inherited from `ModelDataset` defined in [src/dataloader/base_loader.py](src/dataloader/base_loader.py). You need to optionally implement six functions: `__init__` (initialize the class), `__len__` (return the size of dataset), `__getitem__`　(get a data point), `training_step` (forward pass during training), `validation_step` (forward pass during validation), and `test_step` (forward pass during inference). Now you can use the dataset class by specifying flag `-out dummy`. See example dataset [class](src/dataloader/fwi_reanalysis.py) for an example.
 
