@@ -26,9 +26,9 @@ This codebase (and this README) is a work-in-progress. The `master` is a stable 
 
 * Clone & navigate into the repo and create a conda environment using `environment.yml` on Ubuntu 18.04 and 20.04 only.
 * All EDA and Inference notebooks must be run within this environment. Use `conda activate wildfire-dl`
-* Check out the EDA notebooks titled [`EDA_XXX_mini_sample.ipynb`](data/EDA). We recommend `jupyterlab`.
-* Check out the Inference notebook titled [`Inference_4_10.ipynb`](examples/Inference_4_10.ipynb).
-* The notebooks also include code to download mini-samples of the dataset (`~1.5GiB`).
+* Check out the EDA notebooks titled [`EDA_X_mini_sample.ipynb`](data/EDA). We recommend `jupyterlab`.
+* Check out the Inference notebooks for [`1 day, 10 day, 14 day and 21 day predictions`](examples/).
+* The notebooks also include code to download a small sample  dataset.
 
 **Next:**
 
@@ -73,9 +73,9 @@ We include a `Dockerfile` & `docker-compose.yml` and provide detailed instructio
 ## Running Inference
 
 * **Examples**:<br>
-  The [Inference_2_1.ipynb](examples/Inference_2_1.ipynb) and [Inference_4_10.ipynb](examples/Inference_4_10.ipynb) notebooks demonstrate the end-to-end procedure of loading data, creating model from saved checkpoint, and getting the predictions for 2 day input, 1 day output; and 4 day input, 10 day output experiments respectively.
+  The [Inference_2_1.ipynb](examples/Inference_2_1.ipynb), [Inference_4_10.ipynb](examples/Inference_4_10.ipynb), [Inference_4_14.ipynb](examples/Inference_4_14.ipynb), [Inference_7_21.ipynb](examples/Inference_7_21.ipynb)notebooks demonstrate the end-to-end procedure of loading data, creating model from saved checkpoint, and getting the predictions for 2 day input, 1 day output; and 4 day input, 10 day output, 4 day input, 14 day output and 7 day input, 21 day output experiments respectively.
 * **Testing data**:<br>
-  Ensure the access to fwi-forcings and fwi-reanalysis data. Limited sample data is available at `gs://deepfwi-mini-sample` (Released for educational purposes only).
+  Ensure the access to fwi-forcings and fwi-reanalysis data. Limited sample data is available at `gs://deepgeff-data-v0` (Released for educational purposes only).
 * **Pre-trained model**:<br>
   Pre-trained models are stored in [this](src/model/checkpoints/pre_trained) directory. Set the `$CHECKPOINT_FILE ` or pass the directory path through the argument.
 * **Run the inference script**:<br>
@@ -97,7 +97,7 @@ Input variables used for training the model, by default, as configured in the `m
 
   * **Example Usage**: `python src/train.py [-in-days 4] [-out-days 1] [-forcings-dir ${FORCINGS_DIR}] [-reanalysis-dir ${REANALYSIS_DIR}]`
 
-  * **Dataset**: We train our model on 1 year of global data. The `gs://deepfwi-mini-sample` dataset demonstrated in the various EDA and Inference notebooks are not intended for use with `src/train.py`. The scripts will fail if used with those small datasets. If you intend to re-run the training, reach out to us for access to a bigger dataset necessary for the scripts.
+  * **Dataset**: We train our model on 1 year of global data. The `gs://deepgeff-data-v0` dataset demonstrated in the various EDA and Inference notebooks are not intended for use with `src/train.py`. The scripts will fail if used with those small datasets. If you intend to re-run the training, reach out to us for access to a bigger dataset necessary for the scripts.
 
   * **Logging**: We use [Weights & Biases](https://www.wandb.com/) for logging our training. When running the training script, you can either provide a `wandb API key` or choose to skip logging altogether. W&B logging is free and lets you monitor your training remotely. You can sign up for an account and then use `wandb login` from inside the environment to supply the key.
 
