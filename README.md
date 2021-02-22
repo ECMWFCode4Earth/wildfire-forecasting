@@ -73,7 +73,7 @@ We include a `Dockerfile` & `docker-compose.yml` and provide detailed instructio
 ## Running Inference
 
 * **Examples**:<br>
-  The [Inference_2_1.ipynb](examples/Inference_2_1.ipynb), [Inference_4_10.ipynb](examples/Inference_4_10.ipynb), [Inference_4_14.ipynb](examples/Inference_4_14.ipynb), [Inference_7_21.ipynb](examples/Inference_7_21.ipynb)notebooks demonstrate the end-to-end procedure of loading data, creating model from saved checkpoint, and getting the predictions for 2 day input, 1 day output; and 4 day input, 10 day output, 4 day input, 14 day output and 7 day input, 21 day output experiments respectively.
+  The [Inference_2_1.ipynb](examples/Inference_2_1.ipynb), [Inference_4_10.ipynb](examples/Inference_4_10.ipynb), [Inference_4_14.ipynb](examples/Inference_4_14.ipynb), [Inference_7_21.ipynb](examples/Inference_7_21.ipynb) notebooks demonstrate the end-to-end procedure of loading data, creating model from saved checkpoint, and getting the predictions for 2 day input, 1 day output; and 4 day input, 10 day output, 4 day input, 14 day output and 7 day input, 21 day output experiments respectively.
 
 * **Testing data**:<br>
   Ensure the access to fwi-forcings and fwi-reanalysis data. Limited sample data is available at `gs://deepgeff-data-v0` (Released for educational purposes only).
@@ -95,11 +95,11 @@ For reading geospatial datasets, we use [`xarray`](http://xarray.pydata.org/en/s
 
     - For training with input variables `t2`, `tp`, `wspeed` and `rh` + additionally `lai`, switch to the [lai](https://github.com/esowc/wildfire-forecasting/tree/lai) branch. **Note:** You will additionally require require the data for precisely these 5 variables in the /data dir to perform the training/inference for this combination of inputs.
 
-    - For training with input variables `t2`, `tp`, `wspeed` and `rh` + additionally `swvl1`, which to the [swvl1](https://github.com/esowc/wildfire-forecasting/tree/swvl1) branch. **Note:** You will additionally require require the data for precisely these 5 variables in the /data dir to perform the training/inference for this combination of inputs.
+    - For training with input variables `t2`, `tp`, `wspeed` and `rh` + additionally `swvl1`, switch to the [swvl1](https://github.com/esowc/wildfire-forecasting/tree/swvl1) branch. **Note:** You will additionally require require the data for precisely these 5 variables in the /data dir to perform the training/inference for this combination of inputs.
 
     - For training with input variables `t2`, `tp`, `wspeed` and `rh` + additionally `skt`, switch to the [skt](https://github.com/esowc/wildfire-forecasting/tree/skt) branch. **Note:** You will additionally require require the data for precisely these 5 variables in the /data dir to perform the training/inference for this combination of inputs.
 
-    - For training with input variables `t2`, `tp`, `wspeed` and `rh` + additionally `skt` as well as `swvl1`, switch to the [skt+swvl1](https://github.com/esowc/wildfire-forecasting/tree/skt+swvl1) branch. **Note:** You will additionally require require the data for precisely these 6 variables in the /data dir to perform the training/inference for this combination of inputs.
+    - For training with input variables `t2`, `tp`, `wspeed` and `rh` + additionally `skt` as well as `swvl1`, switch to the [skt+swvl1](https://github.com/esowc/wildfire-forecasting/tree/skt+swvl1) branch. **Note:** You will additionally require the data for precisely these 6 variables in the `/data` dir to perform the training/inference for this combination of inputs.
 
       * **Example Usage**: `python src/train.py [-in-days 4] [-out-days 1] [-forcings-dir ${FORCINGS_DIR}] [-reanalysis-dir ${REANALYSIS_DIR}]`
 
